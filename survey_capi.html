@@ -5688,8 +5688,9 @@ function validateCurrentScreen() {
     const langSel = document.body.classList.contains('lang-de') ? '.lang-de' : '.lang-fr';
     valid = screen.querySelector(langSel + ' .option.selected') != null;
   } else if (requires === 'text') {
-    const inputs = screen.querySelectorAll('input.q-required');
-    valid = Array.from(inputs).every(i => i.value.trim() !== '');
+    const inputs = Array.from(screen.querySelectorAll('input.q-required'))
+      .filter(i => i.offsetParent !== null);
+    valid = inputs.length > 0 && inputs.every(i => i.value.trim() !== '');
   } else if (requires === 'maxdiff') {
     const grids = screen.querySelectorAll('.lang-fr .maxdiff-grid, .lang-de .maxdiff-grid');
     valid = Array.from(grids).some(g => {
@@ -6061,7 +6062,8 @@ function collectAnswer(sid) {
     return Array.from(sels).map(el => el.dataset.value || el.textContent.trim());
   }
   if (req === 'text') {
-    const inputs = screen.querySelectorAll(lang + ' input.q-required, ' + lang + ' input, ' + lang + ' textarea');
+    const inputs = Array.from(screen.querySelectorAll('input, textarea'))
+      .filter(i => i.offsetParent !== null);
     const result = {};
     inputs.forEach((inp, i) => { result[inp.name || inp.placeholder || ('f' + i)] = inp.value.trim(); });
     return result;
@@ -6239,7 +6241,7 @@ async function markCompleted() {
 
 // keep the topbar progress label in sync when the language is toggled
 const _origSetLang = setLang;
-setLang = function(l) { _origSetLang(l); updateLiveProgress(); };
+setLang = function(l) { _origSetLang(l); updateLiveProgress(); validateCurrentScreen(); };
 
 // ---- Init ----
 (function liveInit() {
