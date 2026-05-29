@@ -709,6 +709,8 @@ body.lang-de span.lang-de { display: inline !important; }
 .email-footer, .mode-bar { display: none !important; }
 /* hide the static "X / 81" counter inside each screen's action row */
 .screen-actions > span { display: none !important; }
+/* the final "Envoyer"/"Senden" button submits, so drop the "→" arrow */
+.btn-next.btn-submit::after { content: "" !important; }
 /* CAWI: no animatrice briefing boxes */
 body.mode-cawi .briefing-box { display: none !important; }
 
@@ -5455,7 +5457,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag complement">OUTDOOR</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Seriez-vous intéressé(e) par un <strong>espace extérieur en saison</strong> avec <strong>châteaux gonflables</strong> et terrasse ?</h2>
+<h2 class="q-title">Le Jungle Park dispose déjà d'un <strong>espace extérieur en saison</strong> avec <strong>châteaux gonflables</strong> et terrasse. À quel point cet espace vous intéresse-t-il ?</h2>
 <p class="q-instruction">Un seul choix possible · échelle 1 à 5</p>
 <div class="options">
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>1</strong> — Pas du tout intéressé(e)</div>
@@ -5466,7 +5468,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Wären Sie an einem <strong>Außenbereich in der Saison</strong> mit <strong>Hüpfburgen</strong> und Terrasse interessiert?</h2>
+<h2 class="q-title">Der Jungle Park verfügt bereits über einen <strong>Außenbereich in der Saison</strong> mit <strong>Hüpfburgen</strong> und Terrasse. Wie sehr interessiert Sie dieser Bereich?</h2>
 <p class="q-instruction">Nur eine Antwort möglich · Skala 1 bis 5</p>
 <div class="options">
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>1</strong> — Überhaupt nicht interessiert</div>
@@ -5492,7 +5494,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 <p class="q-instruction">Ces informations sont anonymisées en analyse</p>
 <div style="margin-bottom:18px">
   <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Votre âge</label>
-  <div class="options" style="margin-bottom:0">
+  <div class="options demo-age" style="margin-bottom:0">
     <div class="option" onclick="selectOption(this)" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>Moins de 30 ans</div>
     <div class="option" onclick="selectOption(this)" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>30 à 39 ans</div>
     <div class="option" onclick="selectOption(this)" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>40 à 49 ans</div>
@@ -5501,7 +5503,26 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 <div style="margin-bottom:18px">
   <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Code postal de résidence</label>
-  <input type="text" class="q-text" placeholder="ex. 4710" style="max-width:200px">
+  <input type="text" class="q-text demo-cp" placeholder="ex. 4710" style="max-width:200px">
+</div>
+<div style="margin-bottom:18px">
+  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Composition de votre foyer <span style="font-weight:400;color:var(--text-muted)">(facultatif)</span></label>
+  <select class="q-text demo-fam-select" style="max-width:260px">
+    <option value="">— Sans réponse —</option>
+    <option>Sans enfant</option>
+    <option>1 enfant</option>
+    <option>2 enfants</option>
+    <option>3 enfants ou plus</option>
+  </select>
+</div>
+<div style="margin-bottom:18px">
+  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Âge des enfants <span style="font-weight:400;color:var(--text-muted)">(facultatif · plusieurs choix possibles)</span></label>
+  <div class="options demo-kids" style="margin-bottom:0">
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>Moins de 3 ans</div>
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>3 à 6 ans</div>
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>7 à 10 ans</div>
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>11 ans et plus</div>
+  </div>
 </div>
 </div>
   <div class="lang-de">
@@ -5509,7 +5530,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 <p class="q-instruction">Diese Angaben werden in der Auswertung anonymisiert</p>
 <div style="margin-bottom:18px">
   <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Ihr Alter</label>
-  <div class="options" style="margin-bottom:0">
+  <div class="options demo-age" style="margin-bottom:0">
     <div class="option" onclick="selectOption(this)" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>Unter 30 Jahre</div>
     <div class="option" onclick="selectOption(this)" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>30 bis 39 Jahre</div>
     <div class="option" onclick="selectOption(this)" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>40 bis 49 Jahre</div>
@@ -5518,7 +5539,26 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 <div style="margin-bottom:18px">
   <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Postleitzahl des Wohnorts</label>
-  <input type="text" class="q-text" placeholder="z.B. 4710" style="max-width:200px">
+  <input type="text" class="q-text demo-cp" placeholder="z.B. 4710" style="max-width:200px">
+</div>
+<div style="margin-bottom:18px">
+  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Zusammensetzung Ihres Haushalts <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+  <select class="q-text demo-fam-select" style="max-width:260px">
+    <option value="">— Keine Angabe —</option>
+    <option>Ohne Kinder</option>
+    <option>1 Kind</option>
+    <option>2 Kinder</option>
+    <option>3 Kinder oder mehr</option>
+  </select>
+</div>
+<div style="margin-bottom:18px">
+  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Alter der Kinder <span style="font-weight:400;color:var(--text-muted)">(optional · Mehrfachauswahl möglich)</span></label>
+  <div class="options demo-kids" style="margin-bottom:0">
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>Unter 3 Jahre</div>
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>3 bis 6 Jahre</div>
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>7 bis 10 Jahre</div>
+    <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>11 Jahre und älter</div>
+  </div>
 </div>
 </div>
   <div class="screen-actions">
@@ -5971,7 +6011,12 @@ function getNextScreenId(sid) {
     case 'q-food1':  return 'e-event';
     case 'e-event':  return 'q-boutique';
     case 'q-boutique': return 'q-outdoor';
-    case 'q-outdoor':  return 'demo';
+    case 'q-outdoor':
+      // Demographics only for first-timers (a3='premiere'): returning visitors
+      // gave name+email on a4-cross, so we look up their profile instead of
+      // re-asking. First-timers aren't in the file, so we ask them directly.
+      if (ans['a3'] === 'premiere') return 'demo';
+      return SURVEY_MODE === 'capi' ? 'redo-option' : 'fin';
     case 'demo': return SURVEY_MODE === 'capi' ? 'redo-option' : 'fin';
     case 'redo-option': return 'fin';
     default: return null;
@@ -5988,6 +6033,20 @@ function collectAnswer(sid) {
   const block = Array.from(screen.children).find(c =>
     (c.classList.contains('lang-fr') || c.classList.contains('lang-de')) && c.offsetParent !== null
   ) || screen;
+
+  if (sid === 'demo') {
+    const r = {};
+    const age = block.querySelector('.demo-age .option.selected');
+    if (age) r.age = age.textContent.trim();
+    const cp = block.querySelector('input.demo-cp');
+    if (cp && cp.value.trim()) r.codePostal = cp.value.trim();
+    const fam = block.querySelector('select.demo-fam-select');
+    if (fam && fam.value) r.famille = fam.value;
+    const kids = Array.from(block.querySelectorAll('.demo-kids .option.selected'))
+      .map(o => o.textContent.trim());
+    if (kids.length) r.enfants = kids;
+    return r;
+  }
 
   if (req === 'radio') {
     const sel = block.querySelector('.option.selected');
@@ -6107,6 +6166,19 @@ function updateLiveProgress() {
   if (t) t.textContent = (document.body.classList.contains('lang-de') ? 'Schritt ' : 'Étape ') + state.history.length;
 }
 
+// Relabel the "Suivant"/"Weiter" button to "Envoyer"/"Senden" on the last
+// screen before the thank-you page, so respondents know the click submits.
+function updateNextLabel(target, id) {
+  const bn = target.querySelector('.btn-next');
+  if (!bn) return;
+  const isLast = getNextScreenId(id) === 'fin';
+  const fr = bn.querySelector('.lang-fr');
+  const de = bn.querySelector('.lang-de');
+  if (fr) fr.textContent = isLast ? 'Envoyer' : 'Suivant';
+  if (de) de.textContent = isLast ? 'Senden' : 'Weiter';
+  bn.classList.toggle('btn-submit', isLast);
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(el => el.classList.remove('visible'));
   const target = document.getElementById('screen-' + id);
@@ -6119,17 +6191,18 @@ function showScreen(id) {
   attachRankingDrag();
   const bp = target.querySelector('.btn-prev');
   if (bp) bp.style.visibility = state.history.length <= 1 ? 'hidden' : 'visible';
+  updateNextLabel(target, id);
   if (id === 'fin') {
+    // the save already succeeded in submitFinal() before we got here
     const bn = target.querySelector('.btn-next');
     if (bn) bn.style.display = 'none';
-    markCompleted();
   }
   updateLiveProgress();
   validateCurrentScreen();
   window.scrollTo(0, 0);
 }
 
-function nextScreen() {
+async function nextScreen() {
   if (!validateCurrentScreen()) return;
   const sid = liveCurrent;
   const ans = collectAnswer(sid);
@@ -6144,14 +6217,43 @@ function nextScreen() {
     }
   }
   if (sid === 'a2' && !state.sequences) initSequences();
-  saveToFirebase(sid, state.answers[sid]);
   const nextId = getNextScreenId(sid);
+  if (nextId === 'fin') {
+    // final submit: only show the thank-you screen once the save is confirmed
+    const btn = document.getElementById('screen-' + sid).querySelector('.btn-next');
+    await submitFinal(btn);
+    return;
+  }
   if (nextId) { state.history.push(nextId); showScreen(nextId); }
+}
+
+// Save the full record and only then advance to the thank-you screen. On a
+// network failure we keep the respondent on the last screen so they can retry —
+// nothing is lost silently.
+async function submitFinal(btn) {
+  const de = document.body.classList.contains('lang-de');
+  const lbl = btn ? btn.querySelector(de ? '.lang-de' : '.lang-fr') : null;
+  const orig = lbl ? lbl.textContent : null;
+  if (btn) btn.classList.add('disabled');
+  if (lbl) lbl.textContent = de ? 'Senden…' : 'Envoi…';
+  const ok = await markCompleted();
+  if (ok) {
+    state.history.push('fin');
+    showScreen('fin');
+  } else {
+    if (btn) btn.classList.remove('disabled');
+    if (lbl && orig) lbl.textContent = orig;
+  }
 }
 
 function prevScreen() {
   if (state.history.length > 1) {
-    state.history.pop();
+    // Going back erases the answer for the screen being left, so a changed
+    // route/answer never persists stale data (nothing is saved until "Envoyer").
+    const leaving = state.history.pop();
+    delete state.answers[leaving];
+    // if they back out of the thank-you screen, allow a fresh save on resubmit
+    if (leaving === 'fin') state.completed = false;
     showScreen(state.history[state.history.length - 1]);
   }
 }
@@ -6159,49 +6261,65 @@ function prevScreen() {
 // ---- Firebase ----
 let db = null;
 let saveIndicator = null;
-function flashSave(ok) {
+function flashSave(ok, persist) {
   if (!saveIndicator) return;
+  const de = document.body.classList.contains('lang-de');
   saveIndicator.className = 'save-indicator visible' + (ok ? '' : ' error');
   saveIndicator.textContent = ok
-    ? (document.body.classList.contains('lang-de') ? '✓ Gespeichert' : '✓ Enregistré')
-    : (document.body.classList.contains('lang-de') ? '⚠ Netzwerkfehler' : '⚠ Erreur réseau');
-  setTimeout(() => { saveIndicator.className = 'save-indicator'; }, 1800);
+    ? (de ? '✓ Gespeichert' : '✓ Enregistré')
+    : (de ? '⚠ Netzwerkfehler — bitte erneut auf „Senden" tippen'
+          : '⚠ Erreur réseau — recliquez sur « Envoyer »');
+  if (!persist) setTimeout(() => { saveIndicator.className = 'save-indicator'; }, 1800);
 }
-async function saveToFirebase(screenId, answer) {
-  if (!db) return;
+// Data is written once, when the respondent reaches the final screen ("Envoyer").
+// Back-navigation erases answers (see prevScreen), so nothing stale is ever sent.
+// Returns true only if the record is confirmed written to Firestore.
+async function markCompleted() {
+  if (state.completed) return true;
+  if (!db) { flashSave(false, true); return false; }
   try {
-    const update = {
+    const record = Object.assign({}, state.answers, {
       '_respondentId': state.respondentId,
       '_mode': SURVEY_MODE,
       '_language': document.body.classList.contains('lang-de') ? 'de' : 'fr',
       '_startedAt': state.startedAt,
       '_sequences': state.sequences,
       '_cplPath': state.cplPath,
-      '_lastScreen': screenId,
-      '_lastUpdated': firebase.firestore.FieldValue.serverTimestamp(),
-    };
-    update[screenId] = (answer === undefined ? null : answer);
-    await db.collection('responses').doc(state.respondentId).set(update, { merge: true });
-    flashSave(true);
-  } catch (e) {
-    console.warn('Firebase save failed:', e);
-    flashSave(false);
-  }
-}
-async function markCompleted() {
-  if (state.completed || !db) return;
-  state.completed = true;
-  try {
-    await db.collection('responses').doc(state.respondentId).set({
       '_completed': true,
       '_completedAt': firebase.firestore.FieldValue.serverTimestamp(),
-    }, { merge: true });
-  } catch (e) { console.warn(e); }
+    });
+    await db.collection('responses').doc(state.respondentId).set(record);
+    state.completed = true;
+    flashSave(true);
+    return true;
+  } catch (e) {
+    console.warn('Firebase save failed:', e);
+    flashSave(false, true);
+    return false;
+  }
 }
 
 // keep the topbar progress label in sync when the language is toggled
 const _origSetLang = setLang;
 setLang = function(l) { _origSetLang(l); updateLiveProgress(); validateCurrentScreen(); };
+
+// On the demo screen, age (radio) is the only required field; the children-age
+// group is also .option-based, so v9's loose radio check would accept it in
+// place of age. Force the requirement back onto the age group specifically.
+const _origValidate = validateCurrentScreen;
+validateCurrentScreen = function() {
+  const ok = _origValidate();
+  if (liveCurrent !== 'demo') return ok;
+  const scr = document.getElementById('screen-demo');
+  if (!scr) return ok;
+  const block = Array.from(scr.children).find(c =>
+    (c.classList.contains('lang-fr') || c.classList.contains('lang-de')) && c.offsetParent !== null
+  ) || scr;
+  const ageOk = !!block.querySelector('.demo-age .option.selected');
+  const bn = scr.querySelector('.btn-next');
+  if (bn) bn.classList.toggle('disabled', !ageOk);
+  return ageOk;
+};
 
 // ---- Init ----
 (function liveInit() {
