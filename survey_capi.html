@@ -725,6 +725,24 @@ body.mode-cawi .briefing-box { display: none !important; }
 .save-indicator.visible { opacity: 1; transform: translateY(0); }
 .save-indicator.error { background: var(--accent-red, #c0392b); }
 
+/* Gabor-Granger "none" exit — one per grid (Disney-style WTP floor) */
+.gg-none {
+  margin: 8px 0 4px; padding: 11px 14px; border: 1.5px dashed var(--border, #cbd2d9);
+  border-radius: 8px; font-size: 13.5px; font-weight: 600; color: var(--text-muted, #5a6570);
+  cursor: pointer; user-select: none; transition: all 0.15s ease; background: var(--paper, #fff);
+}
+.gg-none:hover { border-color: var(--navy, #1b2a4a); color: var(--navy, #1b2a4a); }
+.gg-none::before {
+  content: ""; display: inline-block; width: 15px; height: 15px; margin-right: 9px;
+  vertical-align: -2px; border: 1.5px solid currentColor; border-radius: 4px; box-sizing: border-box;
+}
+.gg-none.selected {
+  border-style: solid; border-color: var(--navy, #1b2a4a);
+  background: var(--navy, #1b2a4a); color: var(--paper, #fff);
+}
+.gg-none.selected::before { content: "✓"; line-height: 13px; text-align: center; font-size: 11px; }
+.gg-grid.gg-none-off { opacity: 0.4; pointer-events: none; }
+
 @media (max-width: 760px) {
   .main { padding: 26px 18px 80px; }
   .live-topbar { padding: 8px 14px; gap: 12px; }
@@ -1002,7 +1020,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <div class="lang-fr">
 <h2 class="q-title">Pour une sortie au Jungle Park comme aujourd'hui, quel est votre <strong>budget tout compris</strong> ?</h2>
 <p class="q-instruction">Tout inclus : entrées + restauration + éventuels extras</p>
-<div class="options">
+<div class="options a6-total">
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Moins de <strong>30 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>30 à 50 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>50 à 75 €</strong></div>
@@ -1010,17 +1028,65 @@ body.mode-cawi .briefing-box { display: none !important; }
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>100 à 150 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Plus de <strong>150 €</strong></div>
 </div>
+<h2 class="q-title" style="font-size:18px;margin-top:26px">Sur ce budget, combien estimez-vous consacrer à la <strong>restauration</strong> ?</h2>
+<p class="q-instruction">Boissons + nourriture sur place, pour le groupe</p>
+<div class="options a6-resto">
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Rien / je ne consomme pas sur place</div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Moins de <strong>10 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>10 à 20 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>20 à 35 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>35 à 50 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Plus de <strong>50 €</strong></div>
+</div>
 </div>
   <div class="lang-de">
 <h2 class="q-title">Was ist Ihr <strong>Gesamtbudget</strong> für einen Ausflug in den Jungle Park wie heute?</h2>
 <p class="q-instruction">Alles inklusive: Eintritte + Gastronomie + eventuelle Extras</p>
-<div class="options">
+<div class="options a6-total">
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Weniger als <strong>30 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>30 bis 50 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>50 bis 75 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>75 bis 100 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>100 bis 150 €</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Mehr als <strong>150 €</strong></div>
+</div>
+<h2 class="q-title" style="font-size:18px;margin-top:26px">Wie viel davon entfällt Ihrer Schätzung nach auf die <strong>Gastronomie</strong>?</h2>
+<p class="q-instruction">Getränke + Essen vor Ort, für die Gruppe</p>
+<div class="options a6-resto">
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Nichts / ich konsumiere nicht vor Ort</div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Weniger als <strong>10 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>10 bis 20 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>20 bis 35 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>35 bis 50 €</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Mehr als <strong>50 €</strong></div>
+</div>
+</div>
+  <div class="screen-actions">
+    <button class="btn btn-secondary btn-prev" onclick="prevScreen()"><span class="lang-fr">Précédent</span><span class="lang-de">Zurück</span></button>
+    <span style="font-size:12px;color:var(--text-muted)">8 / 81</span>
+    <button class="btn btn-primary btn-next" onclick="nextScreen()"><span class="lang-fr">Suivant</span><span class="lang-de">Weiter</span></button>
+  </div>
+</div>
+
+<div class="screen" id="screen-a-anchor" data-requires="radio">
+  <div class="context-bar"><div class="breadcrumb"><span>DÉMOGRAPHIE</span> <span style="opacity:.4">·</span> <span class="crumb-current"><span class="lang-fr">A-Anchor Prix connu</span><span class="lang-de">A-Anchor Preiskenntnis</span></span></div><span class="duration-badge">15 sec</span></div>
+  <span class="screen-tag demo">ANCRE PRIX</span>
+  <div class="lang-fr">
+<h2 class="q-title">Avant aujourd'hui, connaissiez-vous le <strong>prix d'entrée</strong> du Jungle Park ?</h2>
+<p class="q-instruction">Un seul choix possible</p>
+<div class="options">
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Oui, je le connaissais <strong>précisément</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>J'en avais une <strong>idée approximative</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Non, <strong>pas du tout</strong></div>
+</div>
+</div>
+  <div class="lang-de">
+<h2 class="q-title">Kannten Sie vor heute den <strong>Eintrittspreis</strong> des Jungle Park?</h2>
+<p class="q-instruction">Nur eine Antwort möglich</p>
+<div class="options">
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Ja, ich kannte ihn <strong>genau</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Ich hatte eine <strong>ungefähre Vorstellung</strong></div>
+  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Nein, <strong>überhaupt nicht</strong></div>
 </div>
 </div>
   <div class="screen-actions">
@@ -5359,7 +5425,6 @@ body.mode-cawi .briefing-box { display: none !important; }
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>Tous les 2-3 mois</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>2-3 fois par an</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>Une fois par an ou moins</strong></div>
-  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>C'est ma <strong>première fois</strong></div>
 </div>
 </div>
   <div class="lang-de">
@@ -5370,7 +5435,6 @@ body.mode-cawi .briefing-box { display: none !important; }
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>Alle 2-3 Monate</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>2-3 Mal pro Jahr</strong></div>
   <div class="option" onclick="selectOption(this)"><span class="option-radio"></span><strong>Einmal im Jahr oder seltener</strong></div>
-  <div class="option" onclick="selectOption(this)"><span class="option-radio"></span>Es ist mein <strong>erstes Mal</strong></div>
 </div>
 </div>
   <div class="screen-actions">
@@ -5512,6 +5576,38 @@ body.mode-cawi .briefing-box { display: none !important; }
   <div class="screen-actions">
     <button class="btn btn-secondary btn-prev" onclick="prevScreen()"><span class="lang-fr">Précédent</span><span class="lang-de">Zurück</span></button>
     <span style="font-size:12px;color:var(--text-muted)">78 / 81</span>
+    <button class="btn btn-primary btn-next" onclick="nextScreen()"><span class="lang-fr">Suivant</span><span class="lang-de">Weiter</span></button>
+  </div>
+</div>
+
+<div class="screen" id="screen-q-fairness" data-requires="checkbox">
+  <div class="context-bar"><div class="breadcrumb"><span>COMPLÉMENTS</span> <span style="opacity:.4">·</span> <span class="crumb-current"><span class="lang-fr">Q Fairness</span><span class="lang-de">Q Fairness</span></span></div><span class="duration-badge">30 sec</span></div>
+  <span class="screen-tag complement">FAIRNESS</span>
+  <div class="lang-fr">
+<h2 class="q-title">Selon vous, quels éléments devraient toujours rester <strong>optionnels</strong> — payés à part, jamais imposés dans le prix d'entrée ?</h2>
+<p class="q-instruction">Plusieurs réponses possibles</p>
+<div class="options">
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Les <strong>jetons de jeux</strong> / arcade</div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Le <strong>parking</strong></div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>La <strong>restauration</strong> (nourriture &amp; boissons)</div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>La <strong>boutique</strong> / souvenirs</div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Aucun — tout peut être inclus dans le prix</div>
+</div>
+</div>
+  <div class="lang-de">
+<h2 class="q-title">Welche Elemente sollten Ihrer Meinung nach immer <strong>optional</strong> bleiben — separat bezahlt, nie im Eintrittspreis erzwungen?</h2>
+<p class="q-instruction">Mehrere Antworten möglich</p>
+<div class="options">
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Die <strong>Spielmünzen</strong> / Arcade</div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Der <strong>Parkplatz</strong></div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Die <strong>Gastronomie</strong> (Essen &amp; Getränke)</div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Der <strong>Shop</strong> / Souvenirs</div>
+  <div class="option" onclick="selectOption(this, 'multi')"><span class="option-checkbox"></span>Keine — alles darf im Preis enthalten sein</div>
+</div>
+</div>
+  <div class="screen-actions">
+    <button class="btn btn-secondary btn-prev" onclick="prevScreen()"><span class="lang-fr">Précédent</span><span class="lang-de">Zurück</span></button>
+    <span style="font-size:12px;color:var(--text-muted)">79 / 81</span>
     <button class="btn btn-primary btn-next" onclick="nextScreen()"><span class="lang-fr">Suivant</span><span class="lang-de">Weiter</span></button>
   </div>
 </div>
@@ -5683,7 +5779,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div class="email-footer">info@verdeenconsulting.com</div>
 
 <script>
-const screens = ["cover", "a0", "a1", "a2", "a3", "a4-cross", "a5", "a6", "q-activites", "q-activites-ex", "tr-anniv", "md-anniv-1", "md-anniv-2", "md-anniv-3", "md-anniv-4", "gg-anniv-forfait", "gg-anniv-addons", "anniv-q-moment", "gg-anniv-moment", "anniv-demo-age", "anniv-demo-groupe", "anniv-demo-invites", "tr-mdp", "md-parc-av-1", "md-parc-av-2", "md-parc-av-3", "md-parc-av-4", "md-parc-av-5", "md-parc-av-6", "md-parc-av-7", "md-parc-av-8", "md-parc-av-9", "md-parc-av-10", "md-parc-av-11", "md-parc-av-12", "md-parc-ex-1", "md-parc-ex-2", "md-parc-ex-3", "md-parc-ex-4", "md-parc-ex-5", "md-parc-ex-6", "md-parc-ex-7", "md-parc-ex-8", "md-parc-ex-9", "md-parc-ex-10", "md-parc-ex-11", "md-parc-ex-12", "tr-vw", "vw-av", "gg-av", "vw-ex", "gg-ex", "gg-rg", "gg-pp", "gg-packs", "tr-mdf", "md-fb-1", "md-fb-2", "md-fb-3", "md-fb-4", "md-fb-5", "md-fb-6", "md-fb-7", "md-fb-8", "combo-enfant", "combo-adulte", "tr-cpl", "routing-cpl", "n-booking", "gg-demande-av", "gg-demande-ex", "m-meteo-av", "m-meteo-ex", "f-fid", "q-food1", "e-event", "q-boutique", "q-outdoor", "demo", "redo-option", "fin"];
+const screens = ["cover", "a0", "a1", "a2", "a3", "a4-cross", "a5", "a6", "a-anchor", "q-activites", "q-activites-ex", "tr-anniv", "md-anniv-1", "md-anniv-2", "md-anniv-3", "md-anniv-4", "gg-anniv-forfait", "gg-anniv-addons", "anniv-q-moment", "gg-anniv-moment", "anniv-demo-age", "anniv-demo-groupe", "anniv-demo-invites", "tr-mdp", "md-parc-av-1", "md-parc-av-2", "md-parc-av-3", "md-parc-av-4", "md-parc-av-5", "md-parc-av-6", "md-parc-av-7", "md-parc-av-8", "md-parc-av-9", "md-parc-av-10", "md-parc-av-11", "md-parc-av-12", "md-parc-ex-1", "md-parc-ex-2", "md-parc-ex-3", "md-parc-ex-4", "md-parc-ex-5", "md-parc-ex-6", "md-parc-ex-7", "md-parc-ex-8", "md-parc-ex-9", "md-parc-ex-10", "md-parc-ex-11", "md-parc-ex-12", "tr-vw", "vw-av", "gg-av", "vw-ex", "gg-ex", "gg-rg", "gg-pp", "gg-packs", "tr-mdf", "md-fb-1", "md-fb-2", "md-fb-3", "md-fb-4", "md-fb-5", "md-fb-6", "md-fb-7", "md-fb-8", "combo-enfant", "combo-adulte", "tr-cpl", "routing-cpl", "n-booking", "gg-demande-av", "gg-demande-ex", "m-meteo-av", "m-meteo-ex", "f-fid", "q-food1", "e-event", "q-boutique", "q-outdoor", "q-fairness", "demo", "redo-option", "fin"];
 let currentIdx = 0;
 
 function showScreen(id) {
@@ -6040,7 +6136,8 @@ function getNextScreenId(sid) {
     case 'a3':     return ans['a3'] === 'premiere' ? 'a5' : 'a4-cross';
     case 'a4-cross': return 'a5';
     case 'a5':     return 'a6';
-    case 'a6':
+    case 'a6':     return 'a-anchor';
+    case 'a-anchor':
       if (isAnniv) return 'tr-anniv';
       if (hasAV)   return 'q-activites';
       if (hasEX)   return 'q-activites-ex';
@@ -6071,14 +6168,15 @@ function getNextScreenId(sid) {
     case 'routing-cpl': return 'n-booking';
     case 'n-booking': return usesAV ? 'gg-demande-av' : 'gg-demande-ex';
     case 'gg-demande-av': return 'm-meteo-av';
-    case 'm-meteo-av':    return 'f-fid';
+    case 'm-meteo-av':    return ans['a3'] === 'premiere' ? 'q-food1' : 'f-fid';
     case 'gg-demande-ex': return 'm-meteo-ex';
-    case 'm-meteo-ex':    return 'f-fid';
+    case 'm-meteo-ex':    return ans['a3'] === 'premiere' ? 'q-food1' : 'f-fid';
     case 'f-fid':    return 'q-food1';
     case 'q-food1':  return 'e-event';
     case 'e-event':  return 'q-boutique';
     case 'q-boutique': return 'q-outdoor';
-    case 'q-outdoor':
+    case 'q-outdoor': return 'q-fairness';
+    case 'q-fairness':
       // Demographics only for first-timers (a3='premiere'): returning visitors
       // gave name+email on a4-cross, so we look up their profile instead of
       // re-asking. First-timers aren't in the file, so we ask them directly.
@@ -6115,6 +6213,15 @@ function collectAnswer(sid) {
     return r;
   }
 
+  if (sid === 'a6') {
+    const total = block.querySelector('.a6-total .option.selected');
+    const resto = block.querySelector('.a6-resto .option.selected');
+    // no top-level `value` key, so nextScreen stores the whole object
+    return {
+      budgetTotal: total ? total.textContent.trim() : null,
+      restauration: resto ? resto.textContent.trim() : null,
+    };
+  }
   if (req === 'radio') {
     const sel = block.querySelector('.option.selected');
     if (!sel) return null;
@@ -6154,7 +6261,9 @@ function collectAnswer(sid) {
         const labels = ['tres_probable','plutot_probable','pas_tres_probable','pas_du_tout_probable'];
         tRows.push({ price, response: idx !== null ? labels[idx] : null });
       });
-      result.push({ rows: tRows });
+      const none = grid.nextElementSibling;
+      const noBuy = !!(none && none.classList.contains('gg-none') && none.classList.contains('selected'));
+      result.push({ rows: tRows, noBuyAtAnyPrice: noBuy });
     });
     return result;
   }
@@ -6376,6 +6485,34 @@ setLang = function(l) { _origSetLang(l); updateLiveProgress(); validateCurrentSc
 const _origValidate = validateCurrentScreen;
 validateCurrentScreen = function() {
   const ok = _origValidate();
+  // Gabor-Granger: a grid is satisfied if every row is answered OR the grid's
+  // "je n'achète à aucun prix" exit is selected (Disney-style WTP floor).
+  const ggScr = document.getElementById('screen-' + liveCurrent);
+  if (ggScr && (ggScr.dataset.requires || '') === 'gg') {
+    // visibility, not .lang-* selectors: body always carries a lang class, so
+    // '.lang-fr .gg-grid' would also match the hidden DE grids.
+    const grids = Array.from(ggScr.querySelectorAll('.gg-grid')).filter(g => g.offsetParent !== null);
+    const valid = grids.length > 0 && grids.every(g => {
+      const none = g.nextElementSibling;
+      if (none && none.classList.contains('gg-none') && none.classList.contains('selected')) return true;
+      return Array.from(g.querySelectorAll('.gg-likert')).every(l => l.querySelector('.selected'));
+    });
+    const bn = ggScr.querySelector('.btn-next');
+    if (bn) bn.classList.toggle('disabled', !valid);
+    return valid;
+  }
+  // A6 has two required radio groups (all-in budget + restauration share); v9's
+  // loose radio check would pass with only one group answered.
+  if (liveCurrent === 'a6') {
+    const a6 = document.getElementById('screen-a6');
+    const blk = Array.from(a6.children).find(c =>
+      (c.classList.contains('lang-fr') || c.classList.contains('lang-de')) && c.offsetParent !== null) || a6;
+    const both = !!blk.querySelector('.a6-total .option.selected')
+              && !!blk.querySelector('.a6-resto .option.selected');
+    const bn = a6.querySelector('.btn-next');
+    if (bn) bn.classList.toggle('disabled', !both);
+    return both;
+  }
   if (liveCurrent !== 'demo') return ok;
   const scr = document.getElementById('screen-demo');
   if (!scr) return ok;
@@ -6386,6 +6523,44 @@ validateCurrentScreen = function() {
   const bn = scr.querySelector('.btn-next');
   if (bn) bn.classList.toggle('disabled', !ageOk);
   return ageOk;
+};
+
+// ---- Gabor-Granger "none" exit ----
+// Inject one "je n'achète à aucun prix" row after every gg-grid (both language
+// copies). Done at runtime so it applies uniformly to all GG screens, incl. the
+// three sub-grids of gg-packs, without fragile HTML string patching.
+function injectGGNone() {
+  document.querySelectorAll('.gg-grid').forEach(grid => {
+    if (grid.nextElementSibling && grid.nextElementSibling.classList.contains('gg-none')) return;
+    const de = !!grid.closest('.lang-de');
+    const el = document.createElement('div');
+    el.className = 'gg-none';
+    el.setAttribute('onclick', 'pickGGNone(this)');
+    el.textContent = de ? 'Egal zu welchem Preis — ich würde das nicht kaufen'
+                        : "Quel que soit le prix, je n'achèterais pas";
+    grid.parentNode.insertBefore(el, grid.nextSibling);
+  });
+}
+function pickGGNone(el) {
+  const grid = el.previousElementSibling;
+  const on = el.classList.toggle('selected');
+  if (grid && grid.classList.contains('gg-grid')) {
+    grid.classList.toggle('gg-none-off', on);
+    if (on) grid.querySelectorAll('.gg-likert-btn.selected').forEach(b => b.classList.remove('selected'));
+  }
+  validateCurrentScreen();
+}
+// picking any price clears that grid's "none" exit. Clear it BEFORE delegating,
+// because _origPickGG validates last — clearing after would leave a stale state.
+const _origPickGG = pickGG;
+pickGG = function(el) {
+  const grid = el.closest('.gg-grid');
+  const none = grid && grid.nextElementSibling;
+  if (none && none.classList.contains('gg-none')) {
+    none.classList.remove('selected');
+    grid.classList.remove('gg-none-off');
+  }
+  _origPickGG(el);
 };
 
 // ---- Init ----
@@ -6404,6 +6579,7 @@ validateCurrentScreen = function() {
   saveIndicator = document.getElementById('save-indicator');
   state.respondentId = genId();
   state.history = ['cover'];
+  injectGGNone();
   setLang('fr');
   showScreen('cover');
   attachRankingDrag();
