@@ -939,6 +939,64 @@ body.mode-cawi .briefing-box { display: none !important; }
   </div>
 </div>
 
+<div class="screen" id="screen-a-resa" data-requires="radio">
+  <div class="context-bar"><div class="breadcrumb"><span>DÉMOGRAPHIE</span> <span style="opacity:.4">·</span> <span class="crumb-current"><span class="lang-fr">A-Résa Réservation en ligne</span><span class="lang-de">A-Résa Online-Buchung</span></span></div><span class="duration-badge">10 sec</span></div>
+  <span class="screen-tag demo">RÉSERVATION</span>
+  <div class="lang-fr">
+<h2 class="q-title">Avez-vous <strong>réservé en ligne</strong> votre visite d'aujourd'hui ?</h2>
+<p class="q-instruction">Un seul choix possible</p>
+<div class="options">
+  <div class="option" data-value="oui" onclick="selectOption(this)"><span class="option-radio"></span>Oui, j'ai réservé en ligne</div>
+  <div class="option" data-value="non" onclick="selectOption(this)"><span class="option-radio"></span>Non, je n'ai pas réservé en ligne</div>
+</div>
+</div>
+  <div class="lang-de">
+<h2 class="q-title">Haben Sie Ihren heutigen Besuch <strong>online gebucht</strong>?</h2>
+<p class="q-instruction">Nur eine Antwort möglich</p>
+<div class="options">
+  <div class="option" data-value="oui" onclick="selectOption(this)"><span class="option-radio"></span>Ja, ich habe online gebucht</div>
+  <div class="option" data-value="non" onclick="selectOption(this)"><span class="option-radio"></span>Nein, ich habe nicht online gebucht</div>
+</div>
+</div>
+  <div class="screen-actions">
+    <button class="btn btn-secondary btn-prev" onclick="prevScreen()"><span class="lang-fr">Précédent</span><span class="lang-de">Zurück</span></button>
+    <span style="font-size:12px;color:var(--text-muted)">5 / 81</span>
+    <button class="btn btn-primary btn-next" onclick="nextScreen()"><span class="lang-fr">Suivant</span><span class="lang-de">Weiter</span></button>
+  </div>
+</div>
+
+<div class="screen" id="screen-a-resa-delai" data-requires="radio">
+  <div class="context-bar"><div class="breadcrumb"><span>DÉMOGRAPHIE</span> <span style="opacity:.4">·</span> <span class="crumb-current"><span class="lang-fr">A-Résa Délai de réservation</span><span class="lang-de">A-Résa Buchungsvorlauf</span></span></div><span class="duration-badge">10 sec</span></div>
+  <span class="screen-tag demo">DÉLAI RÉSA</span>
+  <div class="lang-fr">
+<h2 class="q-title">Combien de temps <strong>à l'avance</strong> avez-vous réservé ?</h2>
+<p class="q-instruction">Un seul choix possible</p>
+<div class="options">
+  <div class="option" data-value="jour-meme" onclick="selectOption(this)"><span class="option-radio"></span>Le <strong>jour même</strong></div>
+  <div class="option" data-value="qq-jours" onclick="selectOption(this)"><span class="option-radio"></span>Quelques <strong>jours</strong> avant</div>
+  <div class="option" data-value="1-semaine" onclick="selectOption(this)"><span class="option-radio"></span>Environ <strong>1 semaine</strong> avant</div>
+  <div class="option" data-value="2-4-semaines" onclick="selectOption(this)"><span class="option-radio"></span><strong>2 à 4 semaines</strong> avant</div>
+  <div class="option" data-value="plus-1-mois" onclick="selectOption(this)"><span class="option-radio"></span><strong>Plus d'un mois</strong> avant</div>
+</div>
+</div>
+  <div class="lang-de">
+<h2 class="q-title">Wie lange <strong>im Voraus</strong> haben Sie gebucht?</h2>
+<p class="q-instruction">Nur eine Antwort möglich</p>
+<div class="options">
+  <div class="option" data-value="jour-meme" onclick="selectOption(this)"><span class="option-radio"></span>Am <strong>selben Tag</strong></div>
+  <div class="option" data-value="qq-jours" onclick="selectOption(this)"><span class="option-radio"></span>Einige <strong>Tage</strong> vorher</div>
+  <div class="option" data-value="1-semaine" onclick="selectOption(this)"><span class="option-radio"></span>Etwa <strong>1 Woche</strong> vorher</div>
+  <div class="option" data-value="2-4-semaines" onclick="selectOption(this)"><span class="option-radio"></span><strong>2 bis 4 Wochen</strong> vorher</div>
+  <div class="option" data-value="plus-1-mois" onclick="selectOption(this)"><span class="option-radio"></span><strong>Mehr als ein Monat</strong> vorher</div>
+</div>
+</div>
+  <div class="screen-actions">
+    <button class="btn btn-secondary btn-prev" onclick="prevScreen()"><span class="lang-fr">Précédent</span><span class="lang-de">Zurück</span></button>
+    <span style="font-size:12px;color:var(--text-muted)">6 / 81</span>
+    <button class="btn btn-primary btn-next" onclick="nextScreen()"><span class="lang-fr">Suivant</span><span class="lang-de">Weiter</span></button>
+  </div>
+</div>
+
 <div class="screen" id="screen-a4-cross" data-requires="text">
   <div class="context-bar"><div class="breadcrumb"><span>DÉMOGRAPHIE</span> <span style="opacity:.4">·</span> <span class="crumb-current"><span class="lang-fr">A4 Identification client</span><span class="lang-de">A4 Kundenidentifikation</span></span></div><span class="duration-badge">20 sec</span></div>
   <span class="screen-tag demo">CROSS APEX</span>
@@ -5779,7 +5837,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div class="email-footer">info@verdeenconsulting.com</div>
 
 <script>
-const screens = ["cover", "a0", "a1", "a2", "a3", "a4-cross", "a5", "a6", "a-anchor", "q-activites", "q-activites-ex", "tr-anniv", "md-anniv-1", "md-anniv-2", "md-anniv-3", "md-anniv-4", "gg-anniv-forfait", "gg-anniv-addons", "anniv-q-moment", "gg-anniv-moment", "anniv-demo-age", "anniv-demo-groupe", "anniv-demo-invites", "tr-mdp", "md-parc-av-1", "md-parc-av-2", "md-parc-av-3", "md-parc-av-4", "md-parc-av-5", "md-parc-av-6", "md-parc-av-7", "md-parc-av-8", "md-parc-av-9", "md-parc-av-10", "md-parc-av-11", "md-parc-av-12", "md-parc-ex-1", "md-parc-ex-2", "md-parc-ex-3", "md-parc-ex-4", "md-parc-ex-5", "md-parc-ex-6", "md-parc-ex-7", "md-parc-ex-8", "md-parc-ex-9", "md-parc-ex-10", "md-parc-ex-11", "md-parc-ex-12", "tr-vw", "vw-av", "gg-av", "vw-ex", "gg-ex", "gg-rg", "gg-pp", "gg-packs", "tr-mdf", "md-fb-1", "md-fb-2", "md-fb-3", "md-fb-4", "md-fb-5", "md-fb-6", "md-fb-7", "md-fb-8", "combo-enfant", "combo-adulte", "tr-cpl", "routing-cpl", "n-booking", "gg-demande-av", "gg-demande-ex", "m-meteo-av", "m-meteo-ex", "f-fid", "q-food1", "e-event", "q-boutique", "q-outdoor", "q-fairness", "demo", "redo-option", "fin"];
+const screens = ["cover", "a0", "a1", "a2", "a3", "a-resa", "a-resa-delai", "a4-cross", "a5", "a6", "a-anchor", "q-activites", "q-activites-ex", "tr-anniv", "md-anniv-1", "md-anniv-2", "md-anniv-3", "md-anniv-4", "gg-anniv-forfait", "gg-anniv-addons", "anniv-q-moment", "gg-anniv-moment", "anniv-demo-age", "anniv-demo-groupe", "anniv-demo-invites", "tr-mdp", "md-parc-av-1", "md-parc-av-2", "md-parc-av-3", "md-parc-av-4", "md-parc-av-5", "md-parc-av-6", "md-parc-av-7", "md-parc-av-8", "md-parc-av-9", "md-parc-av-10", "md-parc-av-11", "md-parc-av-12", "md-parc-ex-1", "md-parc-ex-2", "md-parc-ex-3", "md-parc-ex-4", "md-parc-ex-5", "md-parc-ex-6", "md-parc-ex-7", "md-parc-ex-8", "md-parc-ex-9", "md-parc-ex-10", "md-parc-ex-11", "md-parc-ex-12", "tr-vw", "vw-av", "gg-av", "vw-ex", "gg-ex", "gg-rg", "gg-pp", "gg-packs", "tr-mdf", "md-fb-1", "md-fb-2", "md-fb-3", "md-fb-4", "md-fb-5", "md-fb-6", "md-fb-7", "md-fb-8", "combo-enfant", "combo-adulte", "tr-cpl", "routing-cpl", "n-booking", "gg-demande-av", "gg-demande-ex", "m-meteo-av", "m-meteo-ex", "f-fid", "q-food1", "e-event", "q-boutique", "q-outdoor", "q-fairness", "demo", "redo-option", "fin"];
 let currentIdx = 0;
 
 function showScreen(id) {
@@ -6133,7 +6191,9 @@ function getNextScreenId(sid) {
     case 'a0':     return 'a1';
     case 'a1':     return 'a2';
     case 'a2':     return 'a3';
-    case 'a3':     return ans['a3'] === 'premiere' ? 'a5' : 'a4-cross';
+    case 'a3':     return 'a-resa';
+    case 'a-resa':       return ans['a-resa'] === 'oui' ? 'a-resa-delai' : 'a4-cross';
+    case 'a-resa-delai': return 'a4-cross';
     case 'a4-cross': return 'a5';
     case 'a5':     return 'a6';
     case 'a6':     return 'a-anchor';
@@ -6177,10 +6237,11 @@ function getNextScreenId(sid) {
     case 'q-boutique': return 'q-outdoor';
     case 'q-outdoor': return 'q-fairness';
     case 'q-fairness':
-      // Demographics only for first-timers (a3='premiere'): returning visitors
-      // gave name+email on a4-cross, so we look up their profile instead of
-      // re-asking. First-timers aren't in the file, so we ask them directly.
-      if (ans['a3'] === 'premiere') return 'demo';
+      // Demographics only for first-time visitors who did NOT book online, i.e.
+      // people not yet registered in the system. Online bookers (a-resa='oui')
+      // are already on file, and repeat visitors are looked up via the
+      // name+email everyone now gives on a4-cross — so neither is re-asked.
+      if (ans['a3'] === 'premiere' && ans['a-resa'] === 'non') return 'demo';
       return SURVEY_MODE === 'capi' ? 'redo-option' : 'fin';
     case 'demo': return SURVEY_MODE === 'capi' ? 'redo-option' : 'fin';
     case 'redo-option': return 'fin';
