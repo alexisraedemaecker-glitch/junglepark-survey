@@ -5699,15 +5699,14 @@ function validateCurrentScreen() {
       return g.querySelector('.md-best.selected-best') && g.querySelector('.md-worst.selected-worst');
     });
   } else if (requires === 'gg') {
-    const grids = screen.querySelectorAll('.lang-fr .gg-grid, .lang-de .gg-grid');
-    const activeGrids = Array.from(grids).filter(g => g.closest(document.body.classList.contains('lang-de') ? '.lang-de' : '.lang-fr'));
+    const activeGrids = Array.from(screen.querySelectorAll('.gg-grid')).filter(g => g.offsetParent !== null);
     valid = activeGrids.length > 0 && activeGrids.every(g => Array.from(g.querySelectorAll('.gg-likert')).every(l => l.querySelector('.selected')));
   } else if (requires === 'vw') {
-    const grid = screen.querySelector(document.body.classList.contains('lang-de') ? '.lang-de .vw-grid' : '.lang-fr .vw-grid');
+    const grid = Array.from(screen.querySelectorAll('.vw-grid')).find(g => g.offsetParent !== null);
     valid = grid && !Array.from(grid.querySelectorAll('.vw-thumb-untouched')).length;
   } else if (requires === 'vw-touched') {
     // booking : all sliders must have been touched
-    const grid = screen.querySelector(document.body.classList.contains('lang-de') ? '.lang-de .vw-grid' : '.lang-fr .vw-grid');
+    const grid = Array.from(screen.querySelectorAll('.vw-grid')).find(g => g.offsetParent !== null);
     valid = grid && grid.querySelectorAll('.vw-thumb-untouched').length === 0;
   } else {
     valid = true;
@@ -5923,6 +5922,7 @@ const state = {
   history: [],
   sequences: null,
   itemOrders: {},
+  vwReset: {},
   cplPath: null,
   startedAt: Date.now(),
   completed: false,
@@ -6050,15 +6050,19 @@ function collectAnswer(sid) {
   const screen = document.getElementById('screen-' + sid);
   if (!screen) return null;
   const req = screen.dataset.requires || '';
-  const lang = document.body.classList.contains('lang-de') ? '.lang-de' : '.lang-fr';
+  // body always carries the active lang class, so a '.lang-fr X' selector also
+  // matches the hidden block. Scope to the visible language container instead.
+  const block = Array.from(screen.children).find(c =>
+    (c.classList.contains('lang-fr') || c.classList.contains('lang-de')) && c.offsetParent !== null
+  ) || screen;
 
   if (req === 'radio') {
-    const sel = screen.querySelector(lang + ' .option.selected');
+    const sel = block.querySelector('.option.selected');
     if (!sel) return null;
     return { value: sel.dataset.value || sel.textContent.trim(), label: sel.textContent.trim() };
   }
   if (req === 'checkbox') {
-    const sels = screen.querySelectorAll(lang + ' .option.selected');
+    const sels = block.querySelectorAll('.option.selected');
     return Array.from(sels).map(el => el.dataset.value || el.textContent.trim());
   }
   if (req === 'text') {
@@ -6069,7 +6073,7 @@ function collectAnswer(sid) {
     return result;
   }
   if (req === 'maxdiff') {
-    const grid = screen.querySelector(lang + ' .maxdiff-grid');
+    const grid = block.querySelector('.maxdiff-grid');
     if (!grid) return null;
     const bestRow  = grid.querySelector('.md-best.selected-best');
     const worstRow = grid.querySelector('.md-worst.selected-worst');
@@ -6079,7 +6083,7 @@ function collectAnswer(sid) {
     return { best: bestItem, worst: worstItem, itemOrder };
   }
   if (req === 'gg') {
-    const grids = screen.querySelectorAll(lang + ' .gg-grid');
+    const grids = block.querySelectorAll('.gg-grid');
     const result = [];
     grids.forEach(grid => {
       const rows = grid.querySelectorAll('.gg-row');
@@ -6096,7 +6100,7 @@ function collectAnswer(sid) {
     return result;
   }
   if (req === 'vw' || req === 'vw-touched') {
-    const grid = screen.querySelector(lang + ' .vw-grid');
+    const grid = block.querySelector('.vw-grid');
     if (!grid) return null;
     const questions = grid.querySelectorAll('.vw-question');
     const result = {};
@@ -6107,7 +6111,7 @@ function collectAnswer(sid) {
     return result;
   }
   // ranking (no data-requires but has a ranking list)
-  const rankList = screen.querySelector(lang + ' .ranking-list, ' + lang + ' .rank-list');
+  const rankList = block.querySelector('.ranking-list, .rank-list');
   if (rankList) {
     const items = rankList.querySelectorAll('.rank-item');
     return Array.from(items).map((el, i) => ({
@@ -6116,6 +6120,28 @@ function collectAnswer(sid) {
     }));
   }
   return null;
+}
+
+// ---- VW sliders: start neutral (no anchoring), once per screen ----
+function resetVwSliders(id) {
+  const screen = document.getElementById('screen-' + id);
+  if (!screen || state.vwReset[id]) return;
+  const grids = screen.querySelectorAll('.vw-grid');
+  if (!grids.length) return;
+  grids.forEach(grid => {
+    grid.classList.add('vw-untouched');
+    grid.querySelectorAll('.vw-slider-thumb').forEach(t => {
+      t.classList.add('vw-thumb-untouched'); t.style.left = '50%';
+    });
+    grid.querySelectorAll('.vw-slider-fill').forEach(f => {
+      f.style.left = '0%'; f.style.width = '0%'; f.style.opacity = '';
+    });
+    grid.querySelectorAll('.vw-value-display').forEach(d => {
+      d.classList.add('vw-display-untouched'); d.textContent = '—';
+    });
+    grid.querySelectorAll('.vw-error').forEach(er => er.textContent = '');
+  });
+  state.vwReset[id] = true;
 }
 
 // ---- MaxDiff item-order randomization (per screen, once) ----
@@ -6156,6 +6182,7 @@ function showScreen(id) {
   liveCurrent = id;
   currentIdx = screens.indexOf(id);
   if (target.dataset.requires === 'maxdiff') randomizeMaxDiff(id);
+  if (target.querySelector('.vw-grid')) resetVwSliders(id);
   attachRankingDrag();
   const bp = target.querySelector('.btn-prev');
   if (bp) bp.style.visibility = state.history.length <= 1 ? 'hidden' : 'visible';
