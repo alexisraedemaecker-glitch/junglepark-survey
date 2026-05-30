@@ -743,6 +743,12 @@ body.mode-cawi .briefing-box { display: none !important; }
 .gg-none.selected::before { content: "✓"; line-height: 13px; text-align: center; font-size: 11px; }
 .gg-grid.gg-none-off { opacity: 0.4; pointer-events: none; }
 
+/* MaxDiff series progress bar (added alongside the "Écran X sur N" title) */
+.md-progress { margin: 0 0 18px; }
+.md-progress-label { font-size: 12px; font-weight: 600; color: var(--text-muted, #5a6570); margin-bottom: 5px; }
+.md-progress-track { height: 6px; background: rgba(0,0,0,0.08); border-radius: 4px; overflow: hidden; }
+.md-progress-fill { height: 100%; background: var(--navy, #1b2a4a); border-radius: 4px; transition: width 0.3s ease; }
+
 @media (max-width: 760px) {
   .main { padding: 26px 18px 80px; }
   .live-topbar { padding: 8px 14px; gap: 12px; }
@@ -1160,7 +1166,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   
   <div class="lang-fr">
 <h2 class="q-title">Quelles activités du parc préférez-vous ?</h2>
-<p class="q-instruction">Classez ces activités <strong>par ordre d'intérêt pour votre enfant Aventurier</strong> (1 = préférée). Cliquez sur ▲ ou ▼ pour réordonner.</p>
+<p class="q-instruction">Classez ces activités <strong>par ordre d'intérêt pour votre enfant Aventurier (1m–1m55)</strong> (1 = préférée). Glissez-déposez les éléments (ou utilisez les flèches ▲ ▼) pour les réordonner.</p>
 <div class="ranking-list" id="ranking-activites">
   <div class="rank-item" data-rank="1">
     <div class="rank-num">1</div>
@@ -1230,7 +1236,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
   <div class="lang-de">
 <h2 class="q-title">Welche Aktivitäten im Park bevorzugen Sie?</h2>
-<p class="q-instruction">Ordnen Sie diese Aktivitäten <strong>nach Interesse für Ihr Abenteurer-Kind</strong> (1 = Favorit). Klicken Sie auf ▲ oder ▼ zum Umsortieren.</p>
+<p class="q-instruction">Ordnen Sie diese Aktivitäten <strong>nach Interesse für Ihr Abenteurer-Kind (1–1,55m)</strong> (1 = Favorit). Ziehen Sie die Elemente per Drag-and-Drop (oder nutzen Sie die Pfeile ▲ ▼), um sie neu zu ordnen.</p>
 <div class="ranking-list" id="ranking-activites">
   <div class="rank-item" data-rank="1">
     <div class="rank-num">1</div>
@@ -1310,8 +1316,8 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag demo">ACTIVITÉS</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Quelles activités préférez-vous pour votre Explorateur ?</h2>
-<p class="q-instruction">Classez ces activités <strong>par ordre d'intérêt pour votre enfant Explorateur</strong> (moins d'1m, 1 = préférée). Cliquez sur ▲ ou ▼ pour réordonner.</p>
+<h2 class="q-title">Quelles activités préférez-vous pour votre Explorateur (moins d'1m) ?</h2>
+<p class="q-instruction">Classez ces activités <strong>par ordre d'intérêt pour votre enfant Explorateur</strong> (moins d'1m, 1 = préférée). Glissez-déposez les éléments (ou utilisez les flèches ▲ ▼) pour les réordonner.</p>
 <div class="ranking-list" id="ranking-activites-ex">
   <div class="rank-item" data-rank="1">
     <div class="rank-num">1</div>
@@ -1380,8 +1386,8 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Welche Aktivitäten bevorzugen Sie für Ihren Entdecker?</h2>
-<p class="q-instruction">Ordnen Sie diese Aktivitäten <strong>nach Interesse für Ihr Entdecker-Kind</strong> (unter 1m, 1 = Favorit). Klicken Sie auf ▲ oder ▼ zum Umsortieren.</p>
+<h2 class="q-title">Welche Aktivitäten bevorzugen Sie für Ihren Entdecker (unter 1m)?</h2>
+<p class="q-instruction">Ordnen Sie diese Aktivitäten <strong>nach Interesse für Ihr Entdecker-Kind</strong> (unter 1m, 1 = Favorit). Ziehen Sie die Elemente per Drag-and-Drop (oder nutzen Sie die Pfeile ▲ ▼), um sie neu zu ordnen.</p>
 <div class="ranking-list" id="ranking-activites-ex">
   <div class="rank-item" data-rank="1">
     <div class="rank-num">1</div>
@@ -2166,7 +2172,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 1 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 1 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2195,7 +2201,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 1 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 1 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2234,7 +2240,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 2 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 2 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2252,7 +2258,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Pass retour à -20% utilisable les mercredis ou vendredis suivants</div>
+        <div class="md-item">Une entrée à -20% utilisable les mercredis ou vendredis suivants</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -2263,7 +2269,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 2 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 2 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2281,7 +2287,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Rückkehr-Pass mit -20% für die folgenden Mittwoche oder Freitage</div>
+        <div class="md-item">Ein Eintritt mit -20% für die folgenden Mittwoche oder Freitage</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -2302,7 +2308,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 3 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 3 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2320,7 +2326,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Une place de parking gratuite réservée à l'entrée</div>
+        <div class="md-item">Une place de parking réservée gratuite juste devant l'entrée du parc (en supposant un parking payant de base)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -2331,7 +2337,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 3 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 3 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2349,7 +2355,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Ein kostenloser, reservierter Parkplatz am Eingang</div>
+        <div class="md-item">Ein kostenloser reservierter Parkplatz direkt vor dem Parkeingang (sofern das Parken grundsätzlich kostenpflichtig ist)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -2370,7 +2376,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 4 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 4 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2388,7 +2394,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Entrée Aventurier accès physique uniquement (Gorilla Forest + Croco Jump, sans les zones créatives et interactives)</div>
+        <div class="md-item">Entrée Aventurier limitée aux grands parcours sportifs (Gorilla Forest + Croco Jump uniquement), sans accès aux zones créatives et interactives (Panda Mission, Zebra Run, Hippo Color)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -2399,7 +2405,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 4 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 4 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2417,7 +2423,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Abenteurer-Eintritt nur körperlicher Zugang (Gorilla Forest + Croco Jump, ohne Kreativ- und Interaktiv-Zonen)</div>
+        <div class="md-item">Abenteurer-Eintritt nur für die großen Sport-Parcours (nur Gorilla Forest + Croco Jump), ohne Zugang zu den Kreativ- und Interaktiv-Zonen (Panda Mission, Zebra Run, Hippo Color)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -2438,7 +2444,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 5 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 5 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2467,7 +2473,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 5 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 5 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2506,7 +2512,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 6 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 6 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2535,7 +2541,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 6 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 6 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2574,7 +2580,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 7 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 7 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2603,7 +2609,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 7 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 7 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2642,7 +2648,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 8 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 8 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2650,17 +2656,17 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div class="maxdiff-grid">
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Pass retour à -20% utilisable les mercredis ou vendredis suivants</div>
+        <div class="md-item">Une entrée à -20% utilisable les mercredis ou vendredis suivants</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Une place de parking gratuite réservée à l'entrée</div>
+        <div class="md-item">Une place de parking réservée gratuite juste devant l'entrée du parc (en supposant un parking payant de base)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Entrée Aventurier accès physique uniquement (Gorilla Forest + Croco Jump, sans les zones créatives et interactives)</div>
+        <div class="md-item">Entrée Aventurier limitée aux grands parcours sportifs (Gorilla Forest + Croco Jump uniquement), sans accès aux zones créatives et interactives (Panda Mission, Zebra Run, Hippo Color)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -2671,7 +2677,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 8 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 8 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2679,17 +2685,17 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div class="maxdiff-grid">
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Rückkehr-Pass mit -20% für die folgenden Mittwoche oder Freitage</div>
+        <div class="md-item">Ein Eintritt mit -20% für die folgenden Mittwoche oder Freitage</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Ein kostenloser, reservierter Parkplatz am Eingang</div>
+        <div class="md-item">Ein kostenloser reservierter Parkplatz direkt vor dem Parkeingang (sofern das Parken grundsätzlich kostenpflichtig ist)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Abenteurer-Eintritt nur körperlicher Zugang (Gorilla Forest + Croco Jump, ohne Kreativ- und Interaktiv-Zonen)</div>
+        <div class="md-item">Abenteurer-Eintritt nur für die großen Sport-Parcours (nur Gorilla Forest + Croco Jump), ohne Zugang zu den Kreativ- und Interaktiv-Zonen (Panda Mission, Zebra Run, Hippo Color)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -2710,7 +2716,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 9 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 9 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2723,7 +2729,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Pass retour à -20% utilisable les mercredis ou vendredis suivants</div>
+        <div class="md-item">Une entrée à -20% utilisable les mercredis ou vendredis suivants</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -2739,7 +2745,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 9 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 9 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2752,7 +2758,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Rückkehr-Pass mit -20% für die folgenden Mittwoche oder Freitage</div>
+        <div class="md-item">Ein Eintritt mit -20% für die folgenden Mittwoche oder Freitage</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -2778,7 +2784,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 10 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 10 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2796,7 +2802,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Entrée Aventurier accès physique uniquement (Gorilla Forest + Croco Jump, sans les zones créatives et interactives)</div>
+        <div class="md-item">Entrée Aventurier limitée aux grands parcours sportifs (Gorilla Forest + Croco Jump uniquement), sans accès aux zones créatives et interactives (Panda Mission, Zebra Run, Hippo Color)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -2807,7 +2813,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 10 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 10 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2825,7 +2831,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Abenteurer-Eintritt nur körperlicher Zugang (Gorilla Forest + Croco Jump, ohne Kreativ- und Interaktiv-Zonen)</div>
+        <div class="md-item">Abenteurer-Eintritt nur für die großen Sport-Parcours (nur Gorilla Forest + Croco Jump), ohne Zugang zu den Kreativ- und Interaktiv-Zonen (Panda Mission, Zebra Run, Hippo Color)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -2846,7 +2852,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 11 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 11 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2864,7 +2870,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Une place de parking gratuite réservée à l'entrée</div>
+        <div class="md-item">Une place de parking réservée gratuite juste devant l'entrée du parc (en supposant un parking payant de base)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -2875,7 +2881,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 11 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 11 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2893,7 +2899,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Ein kostenloser, reservierter Parkplatz am Eingang</div>
+        <div class="md-item">Ein kostenloser reservierter Parkplatz direkt vor dem Parkeingang (sofern das Parken grundsätzlich kostenpflichtig ist)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -2914,7 +2920,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 12 sur 12 (Aventurier)</h2>
+<h2 class="q-title">Écran 12 sur 12 (Aventurier · 1m–1m55)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -2943,7 +2949,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 12 von 12 (Abenteurer)</h2>
+<h2 class="q-title">Bildschirm 12 von 12 (Abenteurer · 1–1,55m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -2982,7 +2988,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 1 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 1 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3011,7 +3017,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 1 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 1 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3050,7 +3056,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 2 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 2 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3068,7 +3074,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Pass retour à -20% utilisable les mercredis ou vendredis suivants</div>
+        <div class="md-item">Une entrée à -20% utilisable les mercredis ou vendredis suivants</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -3079,7 +3085,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 2 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 2 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3097,7 +3103,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Rückkehr-Pass mit -20% für die folgenden Mittwoche oder Freitage</div>
+        <div class="md-item">Ein Eintritt mit -20% für die folgenden Mittwoche oder Freitage</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -3118,7 +3124,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 3 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 3 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3136,7 +3142,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Une place de parking gratuite réservée à l'entrée</div>
+        <div class="md-item">Une place de parking réservée gratuite juste devant l'entrée du parc (en supposant un parking payant de base)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -3147,7 +3153,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 3 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 3 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3165,7 +3171,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Ein kostenloser, reservierter Parkplatz am Eingang</div>
+        <div class="md-item">Ein kostenloser reservierter Parkplatz direkt vor dem Parkeingang (sofern das Parken grundsätzlich kostenpflichtig ist)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -3186,7 +3192,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 4 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 4 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3215,7 +3221,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 4 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 4 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3254,7 +3260,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 5 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 5 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3283,7 +3289,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 5 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 5 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3322,7 +3328,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 6 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 6 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3351,7 +3357,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 6 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 6 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3390,7 +3396,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 7 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 7 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3419,7 +3425,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 7 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 7 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3458,7 +3464,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 8 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 8 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3466,12 +3472,12 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div class="maxdiff-grid">
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Pass retour à -20% utilisable les mercredis ou vendredis suivants</div>
+        <div class="md-item">Une entrée à -20% utilisable les mercredis ou vendredis suivants</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Une place de parking gratuite réservée à l'entrée</div>
+        <div class="md-item">Une place de parking réservée gratuite juste devant l'entrée du parc (en supposant un parking payant de base)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -3487,7 +3493,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 8 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 8 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3495,12 +3501,12 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div class="maxdiff-grid">
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Rückkehr-Pass mit -20% für die folgenden Mittwoche oder Freitage</div>
+        <div class="md-item">Ein Eintritt mit -20% für die folgenden Mittwoche oder Freitage</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Ein kostenloser, reservierter Parkplatz am Eingang</div>
+        <div class="md-item">Ein kostenloser reservierter Parkplatz direkt vor dem Parkeingang (sofern das Parken grundsätzlich kostenpflichtig ist)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -3526,7 +3532,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 9 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 9 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3539,7 +3545,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Pass retour à -20% utilisable les mercredis ou vendredis suivants</div>
+        <div class="md-item">Une entrée à -20% utilisable les mercredis ou vendredis suivants</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -3555,7 +3561,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 9 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 9 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3568,7 +3574,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Rückkehr-Pass mit -20% für die folgenden Mittwoche oder Freitage</div>
+        <div class="md-item">Ein Eintritt mit -20% für die folgenden Mittwoche oder Freitage</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -3594,7 +3600,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 10 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 10 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3623,7 +3629,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 10 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 10 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3662,7 +3668,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 11 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 11 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3680,7 +3686,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Le plus</div>
-        <div class="md-item">Une place de parking gratuite réservée à l'entrée</div>
+        <div class="md-item">Une place de parking réservée gratuite juste devant l'entrée du parc (en supposant un parking payant de base)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Le moins</div>
       </div>
       <div class="maxdiff-row">
@@ -3691,7 +3697,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 11 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 11 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -3709,7 +3715,7 @@ body.mode-cawi .briefing-box { display: none !important; }
       </div>
       <div class="maxdiff-row">
         <div class="md-pick md-best" onclick="pickMD(this, 'best')">+ Am meisten</div>
-        <div class="md-item">Ein kostenloser, reservierter Parkplatz am Eingang</div>
+        <div class="md-item">Ein kostenloser reservierter Parkplatz direkt vor dem Parkeingang (sofern das Parken grundsätzlich kostenpflichtig ist)</div>
         <div class="md-pick md-worst" onclick="pickMD(this, 'worst')">− Am wenigsten</div>
       </div>
       <div class="maxdiff-row">
@@ -3730,7 +3736,7 @@ body.mode-cawi .briefing-box { display: none !important; }
   <span class="screen-tag maxdiff">MAXDIFF</span>
   
   <div class="lang-fr">
-<h2 class="q-title">Écran 12 sur 12 (Explorateur)</h2>
+<h2 class="q-title">Écran 12 sur 12 (Explorateur · moins d'1m)</h2>
 <div class="maxdiff-instruction">
   Parmi ces 4 propositions, choisissez celle qui vous attire <strong style="color:var(--accent-green)">le plus</strong> et celle qui vous attire <strong style="color:var(--accent-red)">le moins</strong>.
 </div>
@@ -3759,7 +3765,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 </div>
 </div>
   <div class="lang-de">
-<h2 class="q-title">Bildschirm 12 von 12 (Entdecker)</h2>
+<h2 class="q-title">Bildschirm 12 von 12 (Entdecker · unter 1m)</h2>
 <div class="maxdiff-instruction">
   Wählen Sie aus diesen 4 Vorschlägen den, der Sie <strong style="color:var(--accent-green)">am meisten</strong> anspricht, und den, der Sie <strong style="color:var(--accent-red)">am wenigsten</strong> anspricht.
 </div>
@@ -6392,6 +6398,59 @@ function randomizeMaxDiff(sid) {
   });
 }
 
+// ---- Ranking: default Monkey Bounce (trampoline) to position 1, once ----
+function defaultRankingOrder(target) {
+  target.querySelectorAll('.ranking-list').forEach(list => {
+    if (list.dataset.monkeyDefaulted) return;
+    list.dataset.monkeyDefaulted = '1';
+    const items = Array.from(list.querySelectorAll('.rank-item'));
+    const monkey = items.find(it => /Monkey Bounce/.test(it.textContent));
+    if (monkey && list.firstElementChild !== monkey) {
+      list.insertBefore(monkey, list.firstElementChild);
+    }
+    if (typeof refreshRanking === 'function') refreshRanking(list);
+  });
+}
+
+// ---- MaxDiff progress within the current (randomized) series ----
+const MD_SETS = {
+  'md-anniv-':   { key: 'anniv',   total: 4 },
+  'md-parc-av-': { key: 'parc_av', total: 12 },
+  'md-parc-ex-': { key: 'parc_ex', total: 12 },
+  'md-fb-':      { key: 'fb',      total: 8 },
+};
+function maxdiffProgressInfo(id) {
+  for (const pre in MD_SETS) {
+    if (id.startsWith(pre)) {
+      const { key, total } = MD_SETS[pre];
+      const seq = state.sequences && state.sequences[key];
+      const n = parseInt(id.slice(pre.length));
+      let pos = null;
+      if (seq) { const i = seq.indexOf(n); if (i >= 0) pos = i + 1; }
+      return { pos, total };
+    }
+  }
+  return null;
+}
+function renderMaxdiffProgress(id, target) {
+  const info = maxdiffProgressInfo(id);
+  const existing = target.querySelector('.md-progress');
+  if (!info || info.pos == null) { if (existing) existing.remove(); return; }
+  let bar = existing;
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.className = 'md-progress';
+    target.insertBefore(bar, target.firstChild);
+  }
+  const pct = Math.round((info.pos / info.total) * 100);
+  bar.innerHTML =
+    '<div class="md-progress-label">' +
+      '<span class="lang-fr">Progression de cette série : ' + info.pos + ' / ' + info.total + '</span>' +
+      '<span class="lang-de">Fortschritt dieser Serie: ' + info.pos + ' / ' + info.total + '</span>' +
+    '</div>' +
+    '<div class="md-progress-track"><div class="md-progress-fill" style="width:' + pct + '%"></div></div>';
+}
+
 // ---- Navigation (overrides v9) ----
 function updateCallouts() {}  // no-op: callouts removed in live
 
@@ -6424,8 +6483,10 @@ function showScreen(id) {
   liveCurrent = id;
   currentIdx = screens.indexOf(id);
   if (target.dataset.requires === 'maxdiff') randomizeMaxDiff(id);
+  renderMaxdiffProgress(id, target);
   if (target.querySelector('.vw-grid')) resetVwSliders(id);
   attachRankingDrag();
+  defaultRankingOrder(target);
   const bp = target.querySelector('.btn-prev');
   if (bp) bp.style.visibility = state.history.length <= 1 ? 'hidden' : 'visible';
   updateNextLabel(target, id);
