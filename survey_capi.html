@@ -753,6 +753,14 @@ body.mode-cawi .briefing-box { display: none !important; }
 .voucher-btn { margin-top: 18px; font-size: 16px; padding: 13px 26px; }
 .voucher-note { font-size: 12px; color: var(--text-muted, #5a6570); margin-top: 10px; }
 
+/* CAWI "save & resume" prompt shown on return (same device) */
+.resume-overlay { position: fixed; inset: 0; background: rgba(15,25,40,0.55); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px; }
+.resume-card { background: #fff; border-radius: 18px; padding: 32px 30px; max-width: 430px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.resume-emoji { font-size: 40px; margin-bottom: 6px; }
+.resume-title { font-size: 22px; color: var(--navy, #1b2a4a); margin: 0 0 10px; }
+.resume-text { font-size: 15px; color: var(--text-muted, #5a6570); line-height: 1.5; margin: 0 0 22px; }
+.resume-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
 @media (max-width: 760px) {
   .main { padding: 26px 18px 80px; }
   .live-topbar { padding: 8px 14px; gap: 12px; }
@@ -6629,6 +6637,7 @@ function showScreen(id) {
   }
   updateLiveProgress();
   validateCurrentScreen();
+  saveProgress();
   window.scrollTo(0, 0);
 }
 
@@ -6726,6 +6735,7 @@ async function markCompleted() {
     }
     await db.collection('responses').doc(state.respondentId).set(record);
     state.completed = true;
+    clearProgress();  // finished: drop the local resume snapshot
     flashSave(true);
     return true;
   } catch (e) {
@@ -6737,7 +6747,7 @@ async function markCompleted() {
 
 // keep the topbar progress label in sync when the language is toggled
 const _origSetLang = setLang;
-setLang = function(l) { _origSetLang(l); updateLiveProgress(); validateCurrentScreen(); };
+setLang = function(l) { _origSetLang(l); updateLiveProgress(); validateCurrentScreen(); saveProgress(); };
 
 // On the demo screen, age (radio) is the only required field; the children-age
 // group is also .option-based, so v9's loose radio check would accept it in
@@ -6823,7 +6833,134 @@ pickGG = function(el) {
   _origPickGG(el);
 };
 
+// ---- Save & resume (CAWI only) -------------------------------------------
+// Persist progress to localStorage after every screen so a respondent can close
+// the tab and come back later ON THE SAME DEVICE/BROWSER without restarting.
+// Deliberately CAWI-only: a shared CAPI tablet must never resume the previous
+// visitor's session. Cross-device resume is out of scope (no account/login).
+const PROGRESS_KEY = 'jp_survey_progress';
+// Content fingerprint of THIS build (substituted at build time). A saved session
+// records the build it started on; on return we send the respondent back to that
+// exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
+// identical to the one they began — even if a newer version has been deployed.
+const BUILD_ID = '3f49a5dcff';
+const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
+
+function saveProgress() {
+  if (SURVEY_MODE !== 'cawi' || state.completed) return;
+  if (!state.history || state.history.length <= 1) return; // nothing past the cover
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+      buildId: BUILD_ID,
+      savedAt: Date.now(),
+      respondentId: state.respondentId,
+      answers: state.answers,
+      history: state.history,
+      sequences: state.sequences,
+      itemOrders: state.itemOrders,
+      vwReset: state.vwReset,
+      cplPath: state.cplPath,
+      startedAt: state.startedAt,
+      voucherCode: state.voucherCode || null,
+      lang: document.body.classList.contains('lang-de') ? 'de' : 'fr',
+      current: liveCurrent,
+    }));
+  } catch (e) { /* quota / private mode: silently no-resume */ }
+}
+function clearProgress() {
+  try { localStorage.removeItem(PROGRESS_KEY); } catch (e) {}
+}
+function loadProgress() {
+  if (SURVEY_MODE !== 'cawi') return null;
+  let raw;
+  try { raw = localStorage.getItem(PROGRESS_KEY); } catch (e) { return null; }
+  if (!raw) return null;
+  let s; try { s = JSON.parse(raw); } catch (e) { clearProgress(); return null; }
+  if (!s || s.buildId !== BUILD_ID) { clearProgress(); return null; }
+  if (!s.history || s.history.length <= 1) return null;
+  if (Date.now() - (s.savedAt || 0) > PROGRESS_MAX_AGE_MS) { clearProgress(); return null; }
+  const target = s.current || s.history[s.history.length - 1];
+  if (!document.getElementById('screen-' + target)) { clearProgress(); return null; }
+  return s;
+}
+function restoreProgress(s) {
+  state.respondentId = s.respondentId || state.respondentId;
+  state.answers    = s.answers    || {};
+  state.history    = s.history    || ['cover'];
+  state.sequences  = s.sequences  || null;
+  state.itemOrders = s.itemOrders || {};
+  state.vwReset    = s.vwReset    || {};
+  state.cplPath    = s.cplPath    || null;
+  state.startedAt  = s.startedAt  || Date.now();
+  if (s.voucherCode) state.voucherCode = s.voucherCode;
+  setLang(s.lang === 'de' ? 'de' : 'fr');
+  const target = s.current || s.history[s.history.length - 1];
+  if (state.history[state.history.length - 1] !== target) state.history.push(target);
+  // let the screen they re-enter re-initialise cleanly (sliders, etc.)
+  delete state.vwReset[target];
+  showScreen(target);
+}
+function showResumeModal(s) {
+  const de = (s.lang === 'de');
+  const ov = document.createElement('div');
+  ov.className = 'resume-overlay';
+  ov.innerHTML =
+    '<div class="resume-card">' +
+      '<div class="resume-emoji">👋</div>' +
+      '<h2 class="resume-title">' + (de ? 'Willkommen zurück!' : 'Content de vous revoir !') + '</h2>' +
+      '<p class="resume-text">' + (de
+        ? 'Wir haben Ihre bisherigen Antworten auf diesem Gerät gespeichert. Möchten Sie dort weitermachen, wo Sie aufgehört haben?'
+        : 'Vos réponses ont été enregistrées sur cet appareil. Voulez-vous reprendre là où vous vous êtes arrêté(e) ?') + '</p>' +
+      '<div class="resume-actions">' +
+        '<button class="btn btn-primary" id="resume-yes">' + (de ? 'Fortsetzen' : 'Reprendre') + '</button>' +
+        '<button class="btn btn-secondary" id="resume-no">' + (de ? 'Neu beginnen' : 'Recommencer') + '</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(ov);
+  document.getElementById('resume-yes').onclick = function () { ov.remove(); restoreProgress(s); };
+  document.getElementById('resume-no').onclick = function () {
+    ov.remove(); clearProgress();
+    state.respondentId = genId(); state.answers = {}; state.history = ['cover'];
+    state.sequences = null; state.itemOrders = {}; state.vwReset = {}; state.cplPath = null;
+    state.startedAt = Date.now(); state.voucherCode = undefined;
+    setLang('fr'); showScreen('cover');
+  };
+}
+
+// If a saved session was started on a DIFFERENT build that is still published,
+// send the respondent back to that exact build so they resume the very same
+// questionnaire they began (wording, screens, randomisation), regardless of any
+// newer version deployed since. Returns true if a redirect is under way.
+async function maybeRedirectToOwnBuild() {
+  if (SURVEY_MODE !== 'cawi') return false;
+  let raw; try { raw = localStorage.getItem(PROGRESS_KEY); } catch (e) { return false; }
+  if (!raw) return false;
+  let s; try { s = JSON.parse(raw); } catch (e) { return false; }
+  if (!s || !s.buildId || s.buildId === BUILD_ID) return false;       // same build: nothing to do
+  if (!s.history || s.history.length <= 1) return false;              // never left the cover
+  if (Date.now() - (s.savedAt || 0) > PROGRESS_MAX_AGE_MS) return false;
+  if (sessionStorage.getItem('jp_pin_tried') === s.buildId) return false; // loop guard
+  const url = 'survey_cawi.' + s.buildId + '.html';
+  try { const r = await fetch(url, { method: 'HEAD' }); if (!r.ok) return false; }
+  catch (e) { return false; }                                        // pruned/offline: resume on current instead
+  sessionStorage.setItem('jp_pin_tried', s.buildId);
+  location.replace(url + (location.search || ''));
+  return true;
+}
+
 // ---- Init ----
+async function liveBoot() {
+  if (await maybeRedirectToOwnBuild()) return;  // redirecting to the original build; stop here
+  // read saved progress BEFORE showScreen('cover') would overwrite it
+  const saved = loadProgress();
+  state.respondentId = genId();
+  state.history = ['cover'];
+  injectGGNone();
+  setLang('fr');
+  showScreen('cover');
+  attachRankingDrag();
+  if (saved) showResumeModal(saved);
+}
 (function liveInit() {
   try {
     firebase.initializeApp({
@@ -6837,12 +6974,7 @@ pickGG = function(el) {
     db = firebase.firestore();
   } catch (e) { console.warn('Firebase init failed:', e); }
   saveIndicator = document.getElementById('save-indicator');
-  state.respondentId = genId();
-  state.history = ['cover'];
-  injectGGNone();
-  setLang('fr');
-  showScreen('cover');
-  attachRankingDrag();
+  liveBoot();
 })();
 
 </script>
