@@ -749,6 +749,10 @@ body.mode-cawi .briefing-box { display: none !important; }
 .md-progress-track { height: 6px; background: rgba(0,0,0,0.08); border-radius: 4px; overflow: hidden; }
 .md-progress-fill { height: 100%; background: var(--navy, #1b2a4a); border-radius: 4px; transition: width 0.3s ease; }
 
+/* CAWI -50% voucher download button on the thank-you screen */
+.voucher-btn { margin-top: 18px; font-size: 16px; padding: 13px 26px; }
+.voucher-note { font-size: 12px; color: var(--text-muted, #5a6570); margin-top: 10px; }
+
 @media (max-width: 760px) {
   .main { padding: 26px 18px 80px; }
   .live-topbar { padding: 8px 14px; gap: 12px; }
@@ -6193,7 +6197,7 @@ function getNextScreenId(sid) {
   if (sid.startsWith('md-fb-')) return seqNext('fb', 'md-fb-', sid, 'combo-enfant');
 
   switch (sid) {
-    case 'cover':  return 'a0';
+    case 'cover':  return SURVEY_MODE === 'cawi' ? 'a1' : 'a0';
     case 'a0':     return 'a1';
     case 'a1':     return 'a2';
     case 'a2':     return 'a3';
@@ -6412,6 +6416,134 @@ function defaultRankingOrder(target) {
   });
 }
 
+// ---- Voucher (-50%) for CAWI: generate a unique code + downloadable PNG ----
+function genVoucherCode() {
+  const t = Date.now().toString(36).toUpperCase().slice(-5);
+  const r = Math.floor(Math.random() * 46656).toString(36).toUpperCase().padStart(3, '0');
+  return 'JP-' + t + '-' + r;
+}
+function voucherRespondentName() {
+  const a = state.answers['a4-cross'] || {};
+  return (a.nom || a['ex. Dupont Marie'] || a['z.B. Dupont Marie'] ||
+          a.name || '').toString().trim();
+}
+function loadVoucherImg(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+// draw an image scaled to COVER the given box, clipped to it
+function drawCover(ctx, img, x, y, w, h) {
+  const ir = img.width / img.height, br = w / h;
+  let dw, dh;
+  if (ir > br) { dh = h; dw = h * ir; } else { dw = w; dh = w / ir; }
+  ctx.save();
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  ctx.restore();
+}
+function roundRectPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+async function buildVoucherCanvas(name, code, de) {
+  const W = 1200, H = 600, GREEN = '#003f33', ACCENT = '#e8541e';
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  // card background
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  // top illustration band
+  const BAND = 232;
+  try { const ill = await loadVoucherImg('ILLUST_JP.png'); drawCover(ctx, ill, 0, 0, W, BAND); }
+  catch (e) { ctx.fillStyle = '#dff0d8'; ctx.fillRect(0, 0, W, BAND); }
+  // logo chip on the band
+  try {
+    const logo = await loadVoucherImg('LOGO_JP.svg');
+    const lh = 92, lw = lh * (logo.width / logo.height || 2.5);
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.25)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 4;
+    ctx.fillStyle = '#ffffff';
+    roundRectPath(ctx, 40, 26, lw + 36, lh + 28, 16); ctx.fill();
+    ctx.restore();
+    ctx.drawImage(logo, 58, 40, lw, lh);
+  } catch (e) {}
+  // -50% badge (right of band)
+  ctx.save();
+  ctx.beginPath(); ctx.arc(W - 130, BAND - 14, 96, 0, Math.PI * 2);
+  ctx.fillStyle = ACCENT; ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 4;
+  ctx.fill(); ctx.restore();
+  ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center';
+  ctx.font = '800 62px Arial, sans-serif'; ctx.fillText('-50%', W - 130, BAND + 2);
+  ctx.font = '700 20px Arial, sans-serif';
+  ctx.fillText(de ? 'EINTRITT' : 'ENTRÉE', W - 130, BAND + 30);
+  // body
+  ctx.textAlign = 'left';
+  ctx.fillStyle = GREEN; ctx.font = '800 30px Arial, sans-serif';
+  ctx.fillText(de ? 'RABATTGUTSCHEIN' : 'BON DE RÉDUCTION', 60, BAND + 78);
+  ctx.fillStyle = '#1d2a37'; ctx.font = '400 22px Arial, sans-serif';
+  ctx.fillText(de ? 'auf einen Eintritt in den Jungle Park'
+                  : 'sur une entrée au Jungle Park', 60, BAND + 116);
+  // name
+  ctx.fillStyle = '#5a6570'; ctx.font = '600 16px Arial, sans-serif';
+  ctx.fillText(de ? 'AUSGESTELLT AUF' : 'AU NOM DE', 60, BAND + 168);
+  ctx.fillStyle = '#1d2a37'; ctx.font = '700 28px Arial, sans-serif';
+  ctx.fillText(name || (de ? '—' : '—'), 60, BAND + 200);
+  // code chip
+  const cy = BAND + 232;
+  ctx.fillStyle = '#5a6570'; ctx.font = '600 16px Arial, sans-serif';
+  ctx.fillText(de ? 'GUTSCHEIN-NR.' : 'N° DE BON', 60, cy);
+  ctx.fillStyle = '#eef4ee';
+  roundRectPath(ctx, 56, cy + 14, 360, 56, 12); ctx.fill();
+  ctx.fillStyle = GREEN; ctx.font = '800 34px "Courier New", monospace';
+  ctx.fillText(code, 76, cy + 52);
+  // footer
+  ctx.fillStyle = '#8a94a0'; ctx.font = '400 14px Arial, sans-serif';
+  ctx.fillText(de
+    ? 'Pro Person ein Gutschein · nicht mit anderen Aktionen kombinierbar · an der Kasse vorzuzeigen.'
+    : 'Un bon par personne · non cumulable avec d’autres offres · à présenter à l’accueil.',
+    60, H - 30);
+  // border
+  ctx.strokeStyle = GREEN; ctx.lineWidth = 6;
+  roundRectPath(ctx, 3, 3, W - 6, H - 6, 20); ctx.stroke();
+  return canvas;
+}
+let _voucherBusy = false;
+async function downloadVoucher() {
+  if (_voucherBusy) return;
+  _voucherBusy = true;
+  const de = document.body.classList.contains('lang-de');
+  const btn = document.querySelector('.screen.visible .voucher-btn');
+  const lbl = btn ? btn.querySelector(de ? '.lang-de' : '.lang-fr') : null;
+  const orig = lbl ? lbl.textContent : null;
+  if (lbl) lbl.textContent = de ? 'Erstellen…' : 'Génération…';
+  try {
+    const name = voucherRespondentName();
+    const code = state.voucherCode || (state.voucherCode = genVoucherCode());
+    const canvas = await buildVoucherCanvas(name, code, de);
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Bon_JunglePark_-50_' + code + '.png';
+    document.body.appendChild(a); a.click(); a.remove();
+  } catch (e) {
+    console.warn('Voucher generation failed:', e);
+    alert(de ? 'Der Gutschein konnte nicht erstellt werden. Bitte erneut versuchen.'
+             : 'Le bon n’a pas pu être généré. Veuillez réessayer.');
+  } finally {
+    if (lbl && orig) lbl.textContent = orig;
+    _voucherBusy = false;
+  }
+}
+
 // ---- MaxDiff progress within the current (randomized) series ----
 const MD_SETS = {
   'md-anniv-':   { key: 'anniv',   total: 4 },
@@ -6575,6 +6707,8 @@ function flashSave(ok, persist) {
 async function markCompleted() {
   if (state.completed) return true;
   if (!db) { flashSave(false, true); return false; }
+  // CAWI only: mint the -50% voucher code now (one per completed response).
+  if (SURVEY_MODE === 'cawi' && !state.voucherCode) state.voucherCode = genVoucherCode();
   try {
     const record = Object.assign({}, state.answers, {
       '_respondentId': state.respondentId,
@@ -6586,6 +6720,10 @@ async function markCompleted() {
       '_completed': true,
       '_completedAt': firebase.firestore.FieldValue.serverTimestamp(),
     });
+    if (SURVEY_MODE === 'cawi') {
+      record['_voucherCode'] = state.voucherCode;
+      record['_voucherName'] = voucherRespondentName();
+    }
     await db.collection('responses').doc(state.respondentId).set(record);
     state.completed = true;
     flashSave(true);

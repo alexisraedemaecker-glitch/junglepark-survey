@@ -749,6 +749,10 @@ body.mode-cawi .briefing-box { display: none !important; }
 .md-progress-track { height: 6px; background: rgba(0,0,0,0.08); border-radius: 4px; overflow: hidden; }
 .md-progress-fill { height: 100%; background: var(--navy, #1b2a4a); border-radius: 4px; transition: width 0.3s ease; }
 
+/* CAWI -50% voucher download button on the thank-you screen */
+.voucher-btn { margin-top: 18px; font-size: 16px; padding: 13px 26px; }
+.voucher-note { font-size: 12px; color: var(--text-muted, #5a6570); margin-top: 10px; }
+
 @media (max-width: 760px) {
   .main { padding: 26px 18px 80px; }
   .live-topbar { padding: 8px 14px; gap: 12px; }
@@ -787,9 +791,9 @@ body.mode-cawi .briefing-box { display: none !important; }
   <h1 class="cover-title">Aidez-nous à imaginer le Jungle Park de demain</h1>
   <p class="cover-subtitle">Votre expérience nous aide à faire évoluer le parc — 20 minutes ensemble</p>
   <div class="cover-reward">
-    <div class="cover-reward-label">Cadeau de remerciement</div>
-    <div class="cover-reward-text">🥤 1 boisson soft + 🪙 2 jetons arcade Elephant Play</div>
-    <div class="cover-reward-sub">À récupérer en fin d'entretien</div>
+    <div class="cover-reward-label">Votre récompense</div>
+    <div class="cover-reward-text">🎟️ Un bon d'entrée à -50% au Jungle Park</div>
+    <div class="cover-reward-sub">À télécharger à la fin, une fois vos réponses envoyées</div>
   </div>
 </div>
 </div>
@@ -800,54 +804,15 @@ body.mode-cawi .briefing-box { display: none !important; }
   <h1 class="cover-title">Helfen Sie uns, den Jungle Park von morgen zu gestalten</h1>
   <p class="cover-subtitle">Ihre Erfahrung hilft uns, den Park weiterzuentwickeln — 20 Minuten gemeinsam</p>
   <div class="cover-reward">
-    <div class="cover-reward-label">Dankeschön-Geschenk</div>
-    <div class="cover-reward-text">🥤 1 Erfrischungsgetränk + 🪙 2 Spielmarken Elephant Play</div>
-    <div class="cover-reward-sub">Am Ende des Gesprächs erhältlich</div>
+    <div class="cover-reward-label">Ihre Belohnung</div>
+    <div class="cover-reward-text">🎟️ Ein Eintrittsgutschein mit -50% für den Jungle Park</div>
+    <div class="cover-reward-sub">Am Ende herunterladbar, sobald Ihre Antworten gesendet sind</div>
   </div>
 </div>
 </div>
   <div class="screen-actions">
     <button class="btn btn-secondary btn-prev" onclick="prevScreen()"><span class="lang-fr">Précédent</span><span class="lang-de">Zurück</span></button>
     <span style="font-size:12px;color:var(--text-muted)">1 / 81</span>
-    <button class="btn btn-primary btn-next" onclick="nextScreen()"><span class="lang-fr">Suivant</span><span class="lang-de">Weiter</span></button>
-  </div>
-</div>
-
-<div class="screen" id="screen-a0" data-requires="">
-  <div class="context-bar"><div class="breadcrumb"><span>INTRO</span> <span style="opacity:.4">·</span> <span class="crumb-current"><span class="lang-fr">A0 Intro animateur</span><span class="lang-de">A0 Einführung Moderator</span></span></div><span class="duration-badge">1 min</span></div>
-  <span class="screen-tag demo">INTRO</span>
-  
-  <div class="lang-fr">
-<h1 class="q-title">Bienvenue !</h1>
-<p class="q-instruction">Lecture par l'enquêteur</p>
-<div class="briefing-box">
-  <div class="briefing-label">BRIEFING ANIMATEUR · à dire AU répondant</div>
-  <div class="briefing-title">Posture d'ouverture</div>
-  <div class="briefing-body">
-    "Bonjour ! Je suis <em>Soizic</em> / <em>Rebecca</em> / <em>[autre animatrice]</em>, je travaille avec Jungle Park pour <em>améliorer en continu l'expérience du parc</em>. On va passer 20 minutes ensemble — je vais vous poser des questions sur ce que vous aimez, ce qui vous semble important, et <em>ce pourquoi vous êtes prêts à payer</em>. À la fin, vous repartez avec <em>une boisson soft et 2 jetons d'arcade</em>. <br><br>Il n'y a pas de mauvaise réponse — l'idée c'est vraiment de comprendre votre vision du parc idéal. Vous êtes prêt ?"
-  </div>
-</div>
-<div class="q-context">
-  <strong>Imaginez votre Jungle Park idéal.</strong> Pendant ce questionnaire, on va vous présenter différentes situations, options, et prix. Choisissez toujours ce qui correspond le mieux à <strong>vos préférences personnelles</strong>, comme si vous deviez configurer votre journée parfaite avec votre famille.
-</div>
-</div>
-  <div class="lang-de">
-<h1 class="q-title">Willkommen!</h1>
-<p class="q-instruction">Vom Interviewer vorzulesen</p>
-<div class="briefing-box">
-  <div class="briefing-label">MODERATOREN-BRIEFING · dem Befragten vorzulesen</div>
-  <div class="briefing-title">Eröffnung</div>
-  <div class="briefing-body">
-    "Guten Tag! Ich bin <em>Soizic</em> / <em>Rebecca</em> / <em>[weitere Begleiterin]</em> und arbeite mit Jungle Park zusammen, um <em>das Park-Erlebnis kontinuierlich zu verbessern</em>. Wir verbringen etwa 20 Minuten zusammen — ich stelle Ihnen Fragen dazu, was Ihnen gefällt, was Ihnen wichtig ist und <em>wofür Sie bereit sind zu bezahlen</em>. Am Ende erhalten Sie <em>ein Erfrischungsgetränk und 2 Spielmarken</em>. <br><br>Es gibt keine falschen Antworten — es geht wirklich darum, Ihre Vorstellung vom idealen Park zu verstehen. Sind Sie bereit?"
-  </div>
-</div>
-<div class="q-context">
-  <strong>Stellen Sie sich Ihren idealen Jungle Park vor.</strong> In diesem Fragebogen zeigen wir Ihnen verschiedene Situationen, Optionen und Preise. Wählen Sie immer das, was am besten Ihren <strong>persönlichen Vorlieben</strong> entspricht — so, als würden Sie Ihren perfekten Tag mit Ihrer Familie zusammenstellen.
-</div>
-</div>
-  <div class="screen-actions">
-    <button class="btn btn-secondary btn-prev" onclick="prevScreen()"><span class="lang-fr">Précédent</span><span class="lang-de">Zurück</span></button>
-    <span style="font-size:12px;color:var(--text-muted)">2 / 81</span>
     <button class="btn btn-primary btn-next" onclick="nextScreen()"><span class="lang-fr">Suivant</span><span class="lang-de">Weiter</span></button>
   </div>
 </div>
@@ -1013,11 +978,11 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
   <div>
     <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">Votre nom et prénom</label>
-    <input type="text" class="q-text q-required" placeholder="ex. Dupont Marie">
+    <input type="text" name="nom" class="q-text q-required" placeholder="ex. Dupont Marie">
   </div>
   <div>
     <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">Votre email</label>
-    <input type="text" class="q-text q-required" placeholder="marie.dupont@email.com">
+    <input type="text" name="email" class="q-text q-required" placeholder="marie.dupont@email.com">
   </div>
 </div>
 </div>
@@ -1027,11 +992,11 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
   <div>
     <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">Ihr Vor- und Nachname</label>
-    <input type="text" class="q-text q-required" placeholder="z.B. Dupont Marie">
+    <input type="text" name="nom" class="q-text q-required" placeholder="z.B. Dupont Marie">
   </div>
   <div>
     <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">Ihre E-Mail</label>
-    <input type="text" class="q-text q-required" placeholder="marie.dupont@email.com">
+    <input type="text" name="email" class="q-text q-required" placeholder="marie.dupont@email.com">
   </div>
 </div>
 </div>
@@ -5739,12 +5704,11 @@ body.mode-cawi .briefing-box { display: none !important; }
     Votre temps et vos réponses vont vraiment nous aider à <strong>faire évoluer le Jungle Park</strong>. On apprécie énormément.
   </p>
   <div class="final-gift">
-    <div class="final-gift-icon">🥤 🪙 🪙</div>
-    <div class="final-gift-text">Voici votre boisson soft<br>et vos 2 jetons d'arcade Elephant Play !</div>
+    <div class="final-gift-icon">🎟️</div>
+    <div class="final-gift-text">Votre bon d'entrée à <strong>-50%</strong> est prêt !</div>
+    <button class="btn btn-primary voucher-btn" onclick="downloadVoucher()"><span class="lang-fr">Télécharger mon bon -50%</span><span class="lang-de">Meinen -50%-Gutschein herunterladen</span></button>
+    <div class="voucher-note"><span class="lang-fr">Le bon porte votre nom et un numéro unique. Conservez-le pour votre prochaine visite.</span><span class="lang-de">Der Gutschein trägt Ihren Namen und eine eindeutige Nummer. Bewahren Sie ihn für Ihren nächsten Besuch auf.</span></div>
   </div>
-  <p style="font-size:13px;color:var(--text-muted);font-style:italic;margin-top:30px">
-    Soizic ou Rebecca remet la récompense en main propre.
-  </p>
 </div>
 </div>
   <div class="lang-de">
@@ -5754,12 +5718,11 @@ body.mode-cawi .briefing-box { display: none !important; }
     Ihre Zeit und Ihre Antworten helfen uns wirklich, <strong>den Jungle Park weiterzuentwickeln</strong>. Wir wissen das sehr zu schätzen.
   </p>
   <div class="final-gift">
-    <div class="final-gift-icon">🥤 🪙 🪙</div>
-    <div class="final-gift-text">Hier ist Ihr Erfrischungsgetränk<br>und Ihre 2 Spielmarken Elephant Play!</div>
+    <div class="final-gift-icon">🎟️</div>
+    <div class="final-gift-text">Ihr Eintrittsgutschein mit <strong>-50%</strong> ist bereit!</div>
+    <button class="btn btn-primary voucher-btn" onclick="downloadVoucher()"><span class="lang-fr">Télécharger mon bon -50%</span><span class="lang-de">Meinen -50%-Gutschein herunterladen</span></button>
+    <div class="voucher-note"><span class="lang-fr">Le bon porte votre nom et un numéro unique. Conservez-le pour votre prochaine visite.</span><span class="lang-de">Der Gutschein trägt Ihren Namen und eine eindeutige Nummer. Bewahren Sie ihn für Ihren nächsten Besuch auf.</span></div>
   </div>
-  <p style="font-size:13px;color:var(--text-muted);font-style:italic;margin-top:30px">
-    Soizic oder Rebecca übergibt die Belohnung persönlich.
-  </p>
 </div>
 </div>
   <div class="screen-actions">
@@ -5776,7 +5739,7 @@ body.mode-cawi .briefing-box { display: none !important; }
 <div class="email-footer">info@verdeenconsulting.com</div>
 
 <script>
-const screens = ["cover", "a0", "a1", "a2", "a3", "a-resa", "a-resa-delai", "a4-cross", "a5", "a6", "a-anchor", "q-activites", "q-activites-ex", "tr-anniv", "md-anniv-1", "md-anniv-2", "md-anniv-3", "md-anniv-4", "gg-anniv-forfait", "gg-anniv-addons", "anniv-q-moment", "gg-anniv-moment", "anniv-demo-age", "anniv-demo-groupe", "anniv-demo-invites", "tr-mdp", "md-parc-av-1", "md-parc-av-2", "md-parc-av-3", "md-parc-av-4", "md-parc-av-5", "md-parc-av-6", "md-parc-av-7", "md-parc-av-8", "md-parc-av-9", "md-parc-av-10", "md-parc-av-11", "md-parc-av-12", "md-parc-ex-1", "md-parc-ex-2", "md-parc-ex-3", "md-parc-ex-4", "md-parc-ex-5", "md-parc-ex-6", "md-parc-ex-7", "md-parc-ex-8", "md-parc-ex-9", "md-parc-ex-10", "md-parc-ex-11", "md-parc-ex-12", "tr-vw", "vw-av", "gg-av", "vw-ex", "gg-ex", "gg-rg", "gg-pp", "gg-packs", "tr-mdf", "md-fb-1", "md-fb-2", "md-fb-3", "md-fb-4", "md-fb-5", "md-fb-6", "md-fb-7", "md-fb-8", "combo-enfant", "combo-adulte", "tr-cpl", "routing-cpl", "n-booking", "gg-demande-av", "gg-demande-ex", "m-meteo-av", "m-meteo-ex", "f-fid", "q-food1", "e-event", "q-boutique", "q-outdoor", "q-fairness", "demo", "redo-option", "fin"];
+const screens = ["cover", "a1", "a2", "a3", "a-resa", "a-resa-delai", "a4-cross", "a5", "a6", "a-anchor", "q-activites", "q-activites-ex", "tr-anniv", "md-anniv-1", "md-anniv-2", "md-anniv-3", "md-anniv-4", "gg-anniv-forfait", "gg-anniv-addons", "anniv-q-moment", "gg-anniv-moment", "anniv-demo-age", "anniv-demo-groupe", "anniv-demo-invites", "tr-mdp", "md-parc-av-1", "md-parc-av-2", "md-parc-av-3", "md-parc-av-4", "md-parc-av-5", "md-parc-av-6", "md-parc-av-7", "md-parc-av-8", "md-parc-av-9", "md-parc-av-10", "md-parc-av-11", "md-parc-av-12", "md-parc-ex-1", "md-parc-ex-2", "md-parc-ex-3", "md-parc-ex-4", "md-parc-ex-5", "md-parc-ex-6", "md-parc-ex-7", "md-parc-ex-8", "md-parc-ex-9", "md-parc-ex-10", "md-parc-ex-11", "md-parc-ex-12", "tr-vw", "vw-av", "gg-av", "vw-ex", "gg-ex", "gg-rg", "gg-pp", "gg-packs", "tr-mdf", "md-fb-1", "md-fb-2", "md-fb-3", "md-fb-4", "md-fb-5", "md-fb-6", "md-fb-7", "md-fb-8", "combo-enfant", "combo-adulte", "tr-cpl", "routing-cpl", "n-booking", "gg-demande-av", "gg-demande-ex", "m-meteo-av", "m-meteo-ex", "f-fid", "q-food1", "e-event", "q-boutique", "q-outdoor", "q-fairness", "demo", "redo-option", "fin"];
 let currentIdx = 0;
 
 function showScreen(id) {
@@ -6126,7 +6089,7 @@ function getNextScreenId(sid) {
   if (sid.startsWith('md-fb-')) return seqNext('fb', 'md-fb-', sid, 'combo-enfant');
 
   switch (sid) {
-    case 'cover':  return 'a0';
+    case 'cover':  return SURVEY_MODE === 'cawi' ? 'a1' : 'a0';
     case 'a0':     return 'a1';
     case 'a1':     return 'a2';
     case 'a2':     return 'a3';
@@ -6345,6 +6308,134 @@ function defaultRankingOrder(target) {
   });
 }
 
+// ---- Voucher (-50%) for CAWI: generate a unique code + downloadable PNG ----
+function genVoucherCode() {
+  const t = Date.now().toString(36).toUpperCase().slice(-5);
+  const r = Math.floor(Math.random() * 46656).toString(36).toUpperCase().padStart(3, '0');
+  return 'JP-' + t + '-' + r;
+}
+function voucherRespondentName() {
+  const a = state.answers['a4-cross'] || {};
+  return (a.nom || a['ex. Dupont Marie'] || a['z.B. Dupont Marie'] ||
+          a.name || '').toString().trim();
+}
+function loadVoucherImg(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+// draw an image scaled to COVER the given box, clipped to it
+function drawCover(ctx, img, x, y, w, h) {
+  const ir = img.width / img.height, br = w / h;
+  let dw, dh;
+  if (ir > br) { dh = h; dw = h * ir; } else { dw = w; dh = w / ir; }
+  ctx.save();
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  ctx.restore();
+}
+function roundRectPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+async function buildVoucherCanvas(name, code, de) {
+  const W = 1200, H = 600, GREEN = '#003f33', ACCENT = '#e8541e';
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  // card background
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  // top illustration band
+  const BAND = 232;
+  try { const ill = await loadVoucherImg('ILLUST_JP.png'); drawCover(ctx, ill, 0, 0, W, BAND); }
+  catch (e) { ctx.fillStyle = '#dff0d8'; ctx.fillRect(0, 0, W, BAND); }
+  // logo chip on the band
+  try {
+    const logo = await loadVoucherImg('LOGO_JP.svg');
+    const lh = 92, lw = lh * (logo.width / logo.height || 2.5);
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.25)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 4;
+    ctx.fillStyle = '#ffffff';
+    roundRectPath(ctx, 40, 26, lw + 36, lh + 28, 16); ctx.fill();
+    ctx.restore();
+    ctx.drawImage(logo, 58, 40, lw, lh);
+  } catch (e) {}
+  // -50% badge (right of band)
+  ctx.save();
+  ctx.beginPath(); ctx.arc(W - 130, BAND - 14, 96, 0, Math.PI * 2);
+  ctx.fillStyle = ACCENT; ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 4;
+  ctx.fill(); ctx.restore();
+  ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center';
+  ctx.font = '800 62px Arial, sans-serif'; ctx.fillText('-50%', W - 130, BAND + 2);
+  ctx.font = '700 20px Arial, sans-serif';
+  ctx.fillText(de ? 'EINTRITT' : 'ENTRÉE', W - 130, BAND + 30);
+  // body
+  ctx.textAlign = 'left';
+  ctx.fillStyle = GREEN; ctx.font = '800 30px Arial, sans-serif';
+  ctx.fillText(de ? 'RABATTGUTSCHEIN' : 'BON DE RÉDUCTION', 60, BAND + 78);
+  ctx.fillStyle = '#1d2a37'; ctx.font = '400 22px Arial, sans-serif';
+  ctx.fillText(de ? 'auf einen Eintritt in den Jungle Park'
+                  : 'sur une entrée au Jungle Park', 60, BAND + 116);
+  // name
+  ctx.fillStyle = '#5a6570'; ctx.font = '600 16px Arial, sans-serif';
+  ctx.fillText(de ? 'AUSGESTELLT AUF' : 'AU NOM DE', 60, BAND + 168);
+  ctx.fillStyle = '#1d2a37'; ctx.font = '700 28px Arial, sans-serif';
+  ctx.fillText(name || (de ? '—' : '—'), 60, BAND + 200);
+  // code chip
+  const cy = BAND + 232;
+  ctx.fillStyle = '#5a6570'; ctx.font = '600 16px Arial, sans-serif';
+  ctx.fillText(de ? 'GUTSCHEIN-NR.' : 'N° DE BON', 60, cy);
+  ctx.fillStyle = '#eef4ee';
+  roundRectPath(ctx, 56, cy + 14, 360, 56, 12); ctx.fill();
+  ctx.fillStyle = GREEN; ctx.font = '800 34px "Courier New", monospace';
+  ctx.fillText(code, 76, cy + 52);
+  // footer
+  ctx.fillStyle = '#8a94a0'; ctx.font = '400 14px Arial, sans-serif';
+  ctx.fillText(de
+    ? 'Pro Person ein Gutschein · nicht mit anderen Aktionen kombinierbar · an der Kasse vorzuzeigen.'
+    : 'Un bon par personne · non cumulable avec d’autres offres · à présenter à l’accueil.',
+    60, H - 30);
+  // border
+  ctx.strokeStyle = GREEN; ctx.lineWidth = 6;
+  roundRectPath(ctx, 3, 3, W - 6, H - 6, 20); ctx.stroke();
+  return canvas;
+}
+let _voucherBusy = false;
+async function downloadVoucher() {
+  if (_voucherBusy) return;
+  _voucherBusy = true;
+  const de = document.body.classList.contains('lang-de');
+  const btn = document.querySelector('.screen.visible .voucher-btn');
+  const lbl = btn ? btn.querySelector(de ? '.lang-de' : '.lang-fr') : null;
+  const orig = lbl ? lbl.textContent : null;
+  if (lbl) lbl.textContent = de ? 'Erstellen…' : 'Génération…';
+  try {
+    const name = voucherRespondentName();
+    const code = state.voucherCode || (state.voucherCode = genVoucherCode());
+    const canvas = await buildVoucherCanvas(name, code, de);
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Bon_JunglePark_-50_' + code + '.png';
+    document.body.appendChild(a); a.click(); a.remove();
+  } catch (e) {
+    console.warn('Voucher generation failed:', e);
+    alert(de ? 'Der Gutschein konnte nicht erstellt werden. Bitte erneut versuchen.'
+             : 'Le bon n’a pas pu être généré. Veuillez réessayer.');
+  } finally {
+    if (lbl && orig) lbl.textContent = orig;
+    _voucherBusy = false;
+  }
+}
+
 // ---- MaxDiff progress within the current (randomized) series ----
 const MD_SETS = {
   'md-anniv-':   { key: 'anniv',   total: 4 },
@@ -6508,6 +6599,8 @@ function flashSave(ok, persist) {
 async function markCompleted() {
   if (state.completed) return true;
   if (!db) { flashSave(false, true); return false; }
+  // CAWI only: mint the -50% voucher code now (one per completed response).
+  if (SURVEY_MODE === 'cawi' && !state.voucherCode) state.voucherCode = genVoucherCode();
   try {
     const record = Object.assign({}, state.answers, {
       '_respondentId': state.respondentId,
@@ -6519,6 +6612,10 @@ async function markCompleted() {
       '_completed': true,
       '_completedAt': firebase.firestore.FieldValue.serverTimestamp(),
     });
+    if (SURVEY_MODE === 'cawi') {
+      record['_voucherCode'] = state.voucherCode;
+      record['_voucherName'] = voucherRespondentName();
+    }
     await db.collection('responses').doc(state.respondentId).set(record);
     state.completed = true;
     flashSave(true);
