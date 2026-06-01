@@ -690,7 +690,7 @@ body.lang-de span.lang-de { display: inline !important; }
   padding: 9px 22px; height: 50px; box-sizing: border-box;
 }
 .live-topbar-brand { font-weight: 700; font-size: 15px; white-space: nowrap; }
-.live-topbar-right { margin-left: auto; }
+.live-topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
 .live-progress { flex: 1; max-width: 420px; }
 .live-progress-text { font-size: 10px; opacity: 0.7; margin-bottom: 4px; min-height: 12px; }
 .live-progress-bar { height: 5px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
@@ -761,7 +761,24 @@ body.mode-cawi .briefing-box { display: none !important; }
 .resume-text { font-size: 15px; color: var(--text-muted, #5a6570); line-height: 1.5; margin: 0 0 22px; }
 .resume-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
+/* CAWI "more info" chip in the topbar + park-info modal. Hidden on CAPI. */
+.info-chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border, #d9dee5); background: #fff; color: var(--navy, #1b2a4a); border-radius: 999px; padding: 5px 12px 5px 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
+.info-chip:hover { border-color: var(--navy, #1b2a4a); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.info-chip-i { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-orange, #e8541e); color: #fff; font-size: 13px; font-weight: 700; font-style: italic; font-family: Georgia, "Times New Roman", serif; line-height: 1; }
+body.mode-capi .info-chip, body.mode-capi .info-overlay { display: none !important; }
+.info-overlay { position: fixed; inset: 0; background: rgba(15,25,40,0.55); display: flex; align-items: center; justify-content: center; z-index: 10001; padding: 20px; }
+.info-card { background: #fff; border-radius: 18px; padding: 30px 30px 26px; max-width: 520px; width: 100%; max-height: 86vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative; }
+.info-card h3 { font-size: 20px; color: var(--navy, #1b2a4a); margin: 0 0 14px; }
+.info-card p { font-size: 14.5px; color: var(--text-soft, #404a55); line-height: 1.55; margin: 0 0 14px; }
+.info-card .info-link { display: inline-block; margin-top: 4px; font-weight: 600; color: var(--accent-orange, #e8541e); text-decoration: none; }
+.info-card .info-link:hover { text-decoration: underline; }
+.info-close { position: absolute; top: 14px; right: 16px; border: none; background: transparent; font-size: 24px; line-height: 1; color: var(--text-muted, #5a6570); cursor: pointer; }
+.ranking-info-link { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--accent-orange, #e8541e); text-decoration: none; }
+.ranking-info-link:hover { text-decoration: underline; }
+
 @media (max-width: 760px) {
+  .info-chip-label { display: none; }
+  .info-chip { padding: 5px; }
   .main { padding: 26px 18px 80px; }
   .live-topbar { padding: 8px 14px; gap: 12px; }
   .live-topbar-brand { font-size: 13px; }
@@ -778,9 +795,30 @@ body.mode-cawi .briefing-box { display: none !important; }
     <div class="live-progress-bar"><div class="live-progress-fill" id="live-progress-fill"></div></div>
   </div>
   <div class="live-topbar-right">
+    <button class="info-chip" type="button" onclick="toggleParkInfo(true)" aria-label="Plus d'informations">
+      <span class="info-chip-i">i</span>
+      <span class="info-chip-label"><span class="lang-fr">Plus d'informations</span><span class="lang-de">Mehr Infos</span></span>
+    </button>
     <div class="lang-toggle">
       <button id="btn-lang-fr" class="active" onclick="setLang('fr')">FR</button>
       <button id="btn-lang-de" onclick="setLang('de')">DE</button>
+    </div>
+  </div>
+</div>
+<div class="info-overlay" id="park-info-overlay" style="display:none" onclick="if(event.target===this)toggleParkInfo(false)">
+  <div class="info-card" role="dialog" aria-modal="true">
+    <button class="info-close" type="button" onclick="toggleParkInfo(false)" aria-label="Fermer">&times;</button>
+    <div class="lang-fr">
+      <h3>Le Jungle Park</h3>
+      <p>Le Jungle Park est un parc de jeux indoor pour toute la famille. L'entrée donne accès à de nombreuses zones&nbsp;: <strong>Gorilla Forest</strong> (grand parcours d'aventure), <strong>Croco Jump</strong>, <strong>Panda Mission</strong>, <strong>Zebra Run</strong>, <strong>Hippo Color</strong>, ainsi que le <strong>Giraffe Garden</strong> réservé aux tout-petits (moins d'1m).</p>
+      <p>Des activités en supplément complètent l'offre&nbsp;: <strong>Jungle Golf</strong> (mini-golf immersif), <strong>Monkey Bounce</strong> (trampolines) et <strong>Elephant Play</strong> (espace arcade). Restauration sur place.</p>
+      <a class="info-link" href="https://www.space-junglepark.be/fr/activites/" target="_blank" rel="noopener">Découvrir toutes les activités sur space-junglepark.be →</a>
+    </div>
+    <div class="lang-de">
+      <h3>Der Jungle Park</h3>
+      <p>Der Jungle Park ist ein Indoor-Spielpark für die ganze Familie. Der Eintritt umfasst zahlreiche Bereiche&nbsp;: <strong>Gorilla Forest</strong> (großer Abenteuer-Parcours), <strong>Croco Jump</strong>, <strong>Panda Mission</strong>, <strong>Zebra Run</strong>, <strong>Hippo Color</strong> sowie den <strong>Giraffe Garden</strong> für die Kleinsten (unter 1m).</p>
+      <p>Kostenpflichtige Zusatzaktivitäten ergänzen das Angebot&nbsp;: <strong>Jungle Golf</strong> (immersives Minigolf), <strong>Monkey Bounce</strong> (Trampoline) und <strong>Elephant Play</strong> (Arcade-Bereich). Gastronomie vor Ort.</p>
+      <a class="info-link" href="https://www.space-junglepark.be/de/aktivitaten/" target="_blank" rel="noopener">Alle Aktivitäten auf space-junglepark.be entdecken →</a>
     </div>
   </div>
 </div>
@@ -6594,6 +6632,13 @@ function renderMaxdiffProgress(id, target) {
 // ---- Navigation (overrides v9) ----
 function updateCallouts() {}  // no-op: callouts removed in live
 
+// CAWI "more info" modal: a respondent answering from home (not on site) can
+// open a short park description + a link to the official activities page.
+function toggleParkInfo(open) {
+  const o = document.getElementById('park-info-overlay');
+  if (o) o.style.display = open ? 'flex' : 'none';
+}
+
 function updateLiveProgress() {
   const pct = Math.min(100, (state.history.length / 50) * 100);
   const f = document.getElementById('live-progress-fill');
@@ -6843,7 +6888,7 @@ const PROGRESS_KEY = 'jp_survey_progress';
 // records the build it started on; on return we send the respondent back to that
 // exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
 // identical to the one they began — even if a newer version has been deployed.
-const BUILD_ID = '3f49a5dcff';
+const BUILD_ID = '826cc3ca93';
 const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
 function saveProgress() {
