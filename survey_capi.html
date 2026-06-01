@@ -1029,6 +1029,7 @@ body.mode-capi .info-chip, body.mode-capi .info-overlay { display: none !importa
 <p class="q-instruction">Un seul choix possible</p>
 <div class="options">
   <div class="option" data-value="jour-meme" onclick="selectOption(this)"><span class="option-radio"></span>Le <strong>jour même</strong></div>
+  <div class="option" data-value="veille" onclick="selectOption(this)"><span class="option-radio"></span><strong>La veille</strong></div>
   <div class="option" data-value="qq-jours" onclick="selectOption(this)"><span class="option-radio"></span>Quelques <strong>jours</strong> avant</div>
   <div class="option" data-value="1-semaine" onclick="selectOption(this)"><span class="option-radio"></span>Environ <strong>1 semaine</strong> avant</div>
   <div class="option" data-value="2-4-semaines" onclick="selectOption(this)"><span class="option-radio"></span><strong>2 à 4 semaines</strong> avant</div>
@@ -1040,6 +1041,7 @@ body.mode-capi .info-chip, body.mode-capi .info-overlay { display: none !importa
 <p class="q-instruction">Nur eine Antwort möglich</p>
 <div class="options">
   <div class="option" data-value="jour-meme" onclick="selectOption(this)"><span class="option-radio"></span>Am <strong>selben Tag</strong></div>
+  <div class="option" data-value="veille" onclick="selectOption(this)"><span class="option-radio"></span><strong>Am Vortag</strong></div>
   <div class="option" data-value="qq-jours" onclick="selectOption(this)"><span class="option-radio"></span>Einige <strong>Tage</strong> vorher</div>
   <div class="option" data-value="1-semaine" onclick="selectOption(this)"><span class="option-radio"></span>Etwa <strong>1 Woche</strong> vorher</div>
   <div class="option" data-value="2-4-semaines" onclick="selectOption(this)"><span class="option-radio"></span><strong>2 bis 4 Wochen</strong> vorher</div>
@@ -6888,7 +6890,7 @@ const PROGRESS_KEY = 'jp_survey_progress';
 // records the build it started on; on return we send the respondent back to that
 // exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
 // identical to the one they began — even if a newer version has been deployed.
-const BUILD_ID = '826cc3ca93';
+const BUILD_ID = '9732ee7902';
 const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
 function saveProgress() {
