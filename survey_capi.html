@@ -776,6 +776,21 @@ body.mode-capi .info-chip, body.mode-capi .info-overlay { display: none !importa
 .ranking-info-link { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--accent-orange, #e8541e); text-decoration: none; }
 .ranking-info-link:hover { text-decoration: underline; }
 
+/* "Les catégories de billets" block inside the park-info modal */
+.info-cats { margin: 4px 0 16px; padding: 14px 16px; background: #f1f7f1; border: 1px solid #d6e7d6; border-radius: 12px; }
+.info-cats-title { font-weight: 700; font-size: 14px; color: var(--navy, #1b2a4a); margin-bottom: 8px; }
+.info-cats ul { margin: 0; padding-left: 2px; list-style: none; }
+.info-cats li { font-size: 13.5px; color: var(--text-soft, #404a55); line-height: 1.5; margin-bottom: 6px; }
+.info-cats li:last-child { margin-bottom: 0; }
+.info-cats strong { color: #003f33; }
+
+/* CAWI: inline legend defining Aventurier/Explorateur/Ranger on each screen
+   that mentions them. Injected by annotateSegments(). Hidden on CAPI. */
+body.mode-capi .segment-legend { display: none !important; }
+.segment-legend { background: #f1f7f1; border: 1px solid #d6e7d6; border-radius: 10px; padding: 9px 14px; margin: 0 0 16px; font-size: 13px; line-height: 1.5; color: #2c3a33; }
+.segment-legend .seg-item { display: block; }
+.segment-legend strong { color: #003f33; }
+
 @media (max-width: 760px) {
   .info-chip-label { display: none; }
   .info-chip { padding: 5px; }
@@ -810,14 +825,32 @@ body.mode-capi .info-chip, body.mode-capi .info-overlay { display: none !importa
     <button class="info-close" type="button" onclick="toggleParkInfo(false)" aria-label="Fermer">&times;</button>
     <div class="lang-fr">
       <h3>Le Jungle Park</h3>
-      <p>Le Jungle Park est un parc de jeux indoor pour toute la famille. L'entrée donne accès à de nombreuses zones&nbsp;: <strong>Gorilla Forest</strong> (grand parcours d'aventure), <strong>Croco Jump</strong>, <strong>Panda Mission</strong>, <strong>Zebra Run</strong>, <strong>Hippo Color</strong>, ainsi que le <strong>Giraffe Garden</strong> réservé aux tout-petits (moins d'1m).</p>
-      <p>Des activités en supplément complètent l'offre&nbsp;: <strong>Jungle Golf</strong> (mini-golf immersif), <strong>Monkey Bounce</strong> (trampolines) et <strong>Elephant Play</strong> (espace arcade). Restauration sur place.</p>
+      <p>Le Jungle Park est un grand parc de jeux <strong>indoor</strong> pour toute la famille, ouvert toute l'année quelle que soit la météo.</p>
+      <p><strong>Compris dans l'entrée</strong> — de nombreuses zones de jeu sur plusieurs niveaux&nbsp;: <strong>Gorilla Forest</strong> (grand parcours d'aventure, filets et toboggans), <strong>Croco Jump</strong> (sauts et obstacles), <strong>Panda Mission</strong>, <strong>Zebra Run</strong>, <strong>Hippo Color</strong>, et le <strong>Giraffe Garden</strong>, espace tout en douceur réservé aux tout-petits (moins d'1m).</p>
+      <p><strong>Activités en supplément</strong> (payantes)&nbsp;: <strong>Jungle Golf</strong> (mini-golf immersif), <strong>Monkey Bounce</strong> (parc de trampolines) et <strong>Elephant Play</strong> (salle d'arcade). Bar et restauration sur place.</p>
+      <div class="info-cats">
+        <div class="info-cats-title">Les catégories de billets</div>
+        <ul>
+          <li>🧗 <strong>Aventurier</strong> — enfant de <strong>1m à 1m55</strong>&nbsp;: accès à tous les grands parcours.</li>
+          <li>🧸 <strong>Explorateur</strong> — enfant de <strong>moins d'1m</strong>&nbsp;: zone Giraffe Garden adaptée aux tout-petits.</li>
+          <li>🧑 <strong>Ranger</strong> — <strong>adulte ou parent</strong> accompagnant.</li>
+        </ul>
+      </div>
       <a class="info-link" href="https://www.space-junglepark.be/fr/activites/" target="_blank" rel="noopener">Découvrir toutes les activités sur space-junglepark.be →</a>
     </div>
     <div class="lang-de">
       <h3>Der Jungle Park</h3>
-      <p>Der Jungle Park ist ein Indoor-Spielpark für die ganze Familie. Der Eintritt umfasst zahlreiche Bereiche&nbsp;: <strong>Gorilla Forest</strong> (großer Abenteuer-Parcours), <strong>Croco Jump</strong>, <strong>Panda Mission</strong>, <strong>Zebra Run</strong>, <strong>Hippo Color</strong> sowie den <strong>Giraffe Garden</strong> für die Kleinsten (unter 1m).</p>
-      <p>Kostenpflichtige Zusatzaktivitäten ergänzen das Angebot&nbsp;: <strong>Jungle Golf</strong> (immersives Minigolf), <strong>Monkey Bounce</strong> (Trampoline) und <strong>Elephant Play</strong> (Arcade-Bereich). Gastronomie vor Ort.</p>
+      <p>Der Jungle Park ist ein großer <strong>Indoor</strong>-Spielpark für die ganze Familie, das ganze Jahr über bei jedem Wetter geöffnet.</p>
+      <p><strong>Im Eintritt enthalten</strong> — zahlreiche Spielbereiche auf mehreren Ebenen&nbsp;: <strong>Gorilla Forest</strong> (großer Abenteuer-Parcours, Netze und Rutschen), <strong>Croco Jump</strong> (Sprünge und Hindernisse), <strong>Panda Mission</strong>, <strong>Zebra Run</strong>, <strong>Hippo Color</strong> sowie den <strong>Giraffe Garden</strong>, ein sanfter Bereich für die Kleinsten (unter 1m).</p>
+      <p><strong>Kostenpflichtige Zusatzaktivitäten</strong>&nbsp;: <strong>Jungle Golf</strong> (immersives Minigolf), <strong>Monkey Bounce</strong> (Trampolinpark) und <strong>Elephant Play</strong> (Arcade-Bereich). Bar und Gastronomie vor Ort.</p>
+      <div class="info-cats">
+        <div class="info-cats-title">Die Ticketkategorien</div>
+        <ul>
+          <li>🧗 <strong>Abenteurer</strong> — Kind von <strong>1m bis 1,55m</strong>&nbsp;: Zugang zu allen großen Parcours.</li>
+          <li>🧸 <strong>Entdecker</strong> — Kind <strong>unter 1m</strong>&nbsp;: Giraffe-Garden-Bereich für die Kleinsten.</li>
+          <li>🧑 <strong>Ranger</strong> — begleitende:r <strong>Erwachsene:r oder Elternteil</strong>.</li>
+        </ul>
+      </div>
       <a class="info-link" href="https://www.space-junglepark.be/de/aktivitaten/" target="_blank" rel="noopener">Alle Aktivitäten auf space-junglepark.be entdecken →</a>
     </div>
   </div>
@@ -6676,6 +6709,47 @@ function updateNextLabel(target, id) {
   bn.classList.toggle('btn-submit', isLast);
 }
 
+// CAWI only: on any screen that mentions Aventurier / Explorateur / Ranger,
+// inject a short bilingual legend defining the terms the screen actually uses.
+// Idempotent (skips if already present) and never runs on CAPI.
+function annotateSegments(target) {
+  if (SURVEY_MODE !== 'cawi' || !target) return;
+  if (target.querySelector('.segment-legend')) return;
+  const txt = target.textContent || '';
+  const items = [];
+  if (/Aventurier|Abenteurer/.test(txt)) {
+    items.push({
+      fr: "🧗 <strong>Aventurier</strong> : enfant de 1 m à 1,55 m",
+      de: "🧗 <strong>Abenteurer</strong>: Kind von 1 m bis 1,55 m"
+    });
+  }
+  if (/Explorateur|Entdecker/.test(txt)) {
+    items.push({
+      fr: "🧸 <strong>Explorateur</strong> : enfant de moins d'1 m",
+      de: "🧸 <strong>Entdecker</strong>: Kind unter 1 m"
+    });
+  }
+  if (/Ranger/.test(txt)) {
+    items.push({
+      fr: "🧑 <strong>Ranger</strong> : adulte / parent accompagnant",
+      de: "🧑 <strong>Ranger</strong>: begleitende:r Erwachsene:r / Elternteil"
+    });
+  }
+  if (!items.length) return;
+  const box = document.createElement('div');
+  box.className = 'segment-legend';
+  const fr = items.map(i => '<span class="seg-item">' + i.fr + '</span>').join('');
+  const de = items.map(i => '<span class="seg-item">' + i.de + '</span>').join('');
+  box.innerHTML = '<div class="lang-fr">' + fr + '</div><div class="lang-de">' + de + '</div>';
+  // insert just after the screen title if present, else at the top of the screen
+  const anchor = target.querySelector('.screen-title, h2, h1');
+  if (anchor && anchor.parentNode) {
+    anchor.parentNode.insertBefore(box, anchor.nextSibling);
+  } else {
+    target.insertBefore(box, target.firstChild);
+  }
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(el => el.classList.remove('visible'));
   const target = document.getElementById('screen-' + id);
@@ -6683,6 +6757,7 @@ function showScreen(id) {
   target.classList.add('visible');
   liveCurrent = id;
   currentIdx = screens.indexOf(id);
+  annotateSegments(target);
   if (target.dataset.requires === 'maxdiff') randomizeMaxDiff(id);
   renderMaxdiffProgress(id, target);
   if (target.querySelector('.vw-grid')) resetVwSliders(id);
@@ -6695,6 +6770,9 @@ function showScreen(id) {
     // the save already succeeded in submitFinal() before we got here
     const bn = target.querySelector('.btn-next');
     if (bn) bn.style.display = 'none';
+    if (state.answers['optin-extra'] === 'oui') {
+      target.querySelectorAll('.final-gift-extended').forEach(e => { e.style.display = ''; });
+    }
   }
   updateLiveProgress();
   validateCurrentScreen();
@@ -6907,7 +6985,7 @@ const PROGRESS_KEY = 'jp_survey_progress';
 // records the build it started on; on return we send the respondent back to that
 // exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
 // identical to the one they began — even if a newer version has been deployed.
-const BUILD_ID = '8d7c684fe4';
+const BUILD_ID = '6ef8293721';
 const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
 function saveProgress() {
