@@ -6502,7 +6502,7 @@ function roundRectPath(ctx, x, y, w, h, r) {
   ctx.arcTo(x, y, x + w, y, r);
   ctx.closePath();
 }
-async function buildVoucherCanvas(name, code, de) {
+async function buildVoucherCanvas(name, code, de, extended) {
   const W = 1200, H = 600, GREEN = '#003f33', ACCENT = '#e8541e';
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
@@ -6540,6 +6540,14 @@ async function buildVoucherCanvas(name, code, de) {
   ctx.fillStyle = '#1d2a37'; ctx.font = '400 22px Arial, sans-serif';
   ctx.fillText(de ? 'auf einen Eintritt in den Jungle Park'
                   : 'sur une entrée au Jungle Park', 60, BAND + 116);
+  // extended reward (only when the respondent answered the optional block):
+  // the SAME single voucher then also grants a soft drink + 2 arcade tokens.
+  if (extended) {
+    ctx.fillStyle = ACCENT; ctx.font = '700 19px Arial, sans-serif';
+    ctx.fillText(de ? '+ 1 gratis Erfrischungsgetränk + 2 Spielmarken Elephant Play'
+                    : '+ 1 boisson soft offerte + 2 jetons d\'arcade Elephant Play',
+                 60, BAND + 144);
+  }
   // name
   ctx.fillStyle = '#5a6570'; ctx.font = '600 16px Arial, sans-serif';
   ctx.fillText(de ? 'AUSGESTELLT AUF' : 'AU NOM DE', 60, BAND + 168);
@@ -6553,6 +6561,11 @@ async function buildVoucherCanvas(name, code, de) {
   roundRectPath(ctx, 56, cy + 14, 360, 56, 12); ctx.fill();
   ctx.fillStyle = GREEN; ctx.font = '800 34px "Courier New", monospace';
   ctx.fillText(code, 76, cy + 52);
+  // validity (to the right of the code chip)
+  ctx.fillStyle = '#5a6570'; ctx.font = '600 16px Arial, sans-serif';
+  ctx.fillText(de ? 'GÜLTIG BIS' : "VALABLE JUSQU'AU", 444, cy);
+  ctx.fillStyle = ACCENT; ctx.font = '800 26px Arial, sans-serif';
+  ctx.fillText(de ? '30. Juni 2026' : '30 juin 2026', 444, cy + 50);
   // footer
   ctx.fillStyle = '#8a94a0'; ctx.font = '400 14px Arial, sans-serif';
   ctx.fillText(de
@@ -6576,7 +6589,8 @@ async function downloadVoucher() {
   try {
     const name = voucherRespondentName();
     const code = state.voucherCode || (state.voucherCode = genVoucherCode());
-    const canvas = await buildVoucherCanvas(name, code, de);
+    const extended = state.answers['optin-extra'] === 'oui';
+    const canvas = await buildVoucherCanvas(name, code, de, extended);
     const url = canvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = url;
@@ -6779,6 +6793,9 @@ async function markCompleted() {
     if (SURVEY_MODE === 'cawi') {
       record['_voucherCode'] = state.voucherCode;
       record['_voucherName'] = voucherRespondentName();
+      // true when the respondent opted into the extra (reward-gated) block;
+      // the voucher then also grants a soft drink + 2 arcade tokens.
+      record['_extended'] = state.answers['optin-extra'] === 'oui';
     }
     await db.collection('responses').doc(state.respondentId).set(record);
     state.completed = true;
@@ -6890,7 +6907,7 @@ const PROGRESS_KEY = 'jp_survey_progress';
 // records the build it started on; on return we send the respondent back to that
 // exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
 // identical to the one they began — even if a newer version has been deployed.
-const BUILD_ID = '9732ee7902';
+const BUILD_ID = '8d7c684fe4';
 const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
 function saveProgress() {
@@ -7008,6 +7025,86 @@ async function liveBoot() {
   attachRankingDrag();
   if (saved) showResumeModal(saved);
 }
+
+// ============================================================
+// CAWI short version + opt-in extended block (CAPI is untouched).
+// ------------------------------------------------------------
+// The CAWI is shortened: respondents complete a shorter CORE set and
+// already earn the -50% voucher. Just before the voucher screen an
+// opt-in gate ('optin-extra') offers a few EXTRA questions; if accepted
+// the same single voucher additionally grants 1 soft drink + 2 arcade
+// tokens. We wrap the shared router so the core flow skips the optional
+// screens and ends on the opt-in gate, then walks the extra block only
+// when the respondent said yes.
+(function () {
+  if (SURVEY_MODE !== 'cawi') return;
+
+  // Questions moved out of the short core into the reward-gated block,
+  // in natural questionnaire order (per the filled decision sheet).
+  var EXTRA_ORDER = ['a5', 'q-activites', 'q-activites-ex', 'anniv-q-moment',
+    'anniv-demo-age', 'anniv-demo-groupe', 'anniv-demo-invites', 'gg-pp',
+    'combo-enfant', 'combo-adulte', 'f-fid', 'q-food1', 'e-event',
+    'q-boutique', 'q-outdoor', 'q-fairness'];
+  var optSet = {};
+  EXTRA_ORDER.forEach(function (id) { optSet[id] = true; });
+
+  // Is an optional screen relevant to this respondent? (Same profile
+  // gating the core router already applies to these screens.)
+  function applicable(id) {
+    var ans = state.answers, a2 = ans['a2'] || [];
+    switch (id) {
+      case 'q-activites':        return a2.includes('aventurier');
+      case 'q-activites-ex':     return a2.includes('explorateur');
+      case 'anniv-q-moment':
+      case 'anniv-demo-age':
+      case 'anniv-demo-groupe':
+      case 'anniv-demo-invites': return ans['a1'] === 'oui';
+      default: return true;
+    }
+  }
+  function firstExtra() {
+    for (var i = 0; i < EXTRA_ORDER.length; i++)
+      if (applicable(EXTRA_ORDER[i])) return EXTRA_ORDER[i];
+    return 'fin';
+  }
+  function nextExtra(sid) {
+    for (var i = EXTRA_ORDER.indexOf(sid) + 1; i < EXTRA_ORDER.length; i++)
+      if (applicable(EXTRA_ORDER[i])) return EXTRA_ORDER[i];
+    return 'fin';
+  }
+
+  var _raw = getNextScreenId;
+  getNextScreenId = function (sid) {
+    var extra = state.answers['optin-extra'] === 'oui';
+    // The opt-in gate itself.
+    if (sid === 'optin-extra') return extra ? firstExtra() : 'fin';
+    // Extended mode: walk the reward-gated block in fixed order.
+    if (extra && optSet[sid]) return nextExtra(sid);
+    // Core mode: skip any optional screen the raw router would visit, and
+    // route the end of the core flow to the opt-in gate (not to 'fin').
+    var n = _raw(sid), guard = 0;
+    while (n && optSet[n] && guard++ < 60) n = _raw(n);
+    if (n === 'fin' && !extra) return 'optin-extra';
+    return n;
+  };
+
+  // The opt-in screen is a gate, never the final submit, so its button
+  // must read "Suivant"/"Weiter" (submit feedback comes from submitFinal).
+  var _label = updateNextLabel;
+  updateNextLabel = function (target, id) {
+    if (id === 'optin-extra') {
+      var bn = target.querySelector('.btn-next');
+      if (!bn) return;
+      var fr = bn.querySelector('.lang-fr'), de = bn.querySelector('.lang-de');
+      if (fr) fr.textContent = 'Suivant';
+      if (de) de.textContent = 'Weiter';
+      bn.classList.remove('btn-submit');
+      return;
+    }
+    _label(target, id);
+  };
+})();
+
 (function liveInit() {
   try {
     firebase.initializeApp({
