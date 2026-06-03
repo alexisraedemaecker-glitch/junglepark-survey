@@ -6599,6 +6599,13 @@ async function buildVoucherCanvas(name, code, de, extended) {
   ctx.fillText(de ? 'GÜLTIG BIS' : "VALABLE JUSQU'AU", 444, cy);
   ctx.fillStyle = ACCENT; ctx.font = '800 26px Arial, sans-serif';
   ctx.fillText(de ? '30. Juni 2026' : '30 juin 2026', 444, cy + 50);
+  // ID requirement — applies to BOTH voucher variants (with or without the
+  // soft drink + tokens). Shown prominently above the fine print.
+  ctx.fillStyle = GREEN; ctx.font = '700 17px Arial, sans-serif';
+  ctx.fillText(de
+    ? 'Nur gültig gegen Vorlage Ihres Personalausweises.'
+    : "Valable uniquement sur présentation de votre carte d'identité.",
+    60, H - 48);
   // footer
   ctx.fillStyle = '#8a94a0'; ctx.font = '400 14px Arial, sans-serif';
   ctx.fillText(de
@@ -6985,7 +6992,7 @@ const PROGRESS_KEY = 'jp_survey_progress';
 // records the build it started on; on return we send the respondent back to that
 // exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
 // identical to the one they began — even if a newer version has been deployed.
-const BUILD_ID = '6ef8293721';
+const BUILD_ID = 'ebbdcbcf39';
 const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
 function saveProgress() {
