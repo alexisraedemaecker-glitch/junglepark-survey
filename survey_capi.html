@@ -791,6 +791,10 @@ body.mode-capi .segment-legend { display: none !important; }
 .segment-legend .seg-item { display: block; }
 .segment-legend strong { color: #003f33; }
 
+/* VW sliders: let JS-driven touch dragging work without the browser
+   hijacking the gesture for scroll/zoom. enableVwTouch() binds the events. */
+.vw-slider-track, .vw-slider-thumb { touch-action: none; }
+
 @media (max-width: 760px) {
   .info-chip-label { display: none; }
   .info-chip { padding: 5px; }
@@ -798,6 +802,12 @@ body.mode-capi .segment-legend { display: none !important; }
   .live-topbar { padding: 8px 14px; gap: 12px; }
   .live-topbar-brand { font-size: 13px; }
   .live-progress { max-width: none; }
+  /* GG grids: on narrow screens the price + 4 likert buttons in a single
+     row overflow. Stack the price above a 2x2 grid of full-width buttons. */
+  .gg-row { grid-template-columns: 1fr; gap: 10px; }
+  .gg-price { text-align: left; font-size: 19px; }
+  .gg-likert { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .gg-likert-btn { padding: 12px 8px; font-size: 13px; min-height: 48px; display: flex; align-items: center; justify-content: center; }
 }
 
 </style>
@@ -6464,6 +6474,37 @@ function resetVwSliders(id) {
   state.vwReset[id] = true;
 }
 
+// ---- VW sliders: touch support (mobile). v9 only wires mouse events. ----
+function vwTouchAt(track, clientX) {
+  const rect = track.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(100, (clientX - rect.left) / rect.width * 100));
+  const qBox = track.closest('.vw-question');
+  const grid = track.closest('.vw-grid');
+  track.querySelector('.vw-slider-thumb').classList.remove('vw-thumb-untouched');
+  qBox.querySelector('.vw-value-display').classList.remove('vw-display-untouched');
+  if (grid) grid.classList.remove('vw-untouched');
+  setVwValue(grid, qBox, track, pct);
+}
+function enableVwTouch(root) {
+  root.querySelectorAll('.vw-slider-track:not([data-vw-touch])').forEach(track => {
+    track.dataset.vwTouch = '1';
+    let active = false;
+    track.addEventListener('touchstart', e => {
+      active = true;
+      e.preventDefault();
+      vwTouchAt(track, e.touches[0].clientX);
+    }, { passive: false });
+    track.addEventListener('touchmove', e => {
+      if (!active) return;
+      e.preventDefault();
+      vwTouchAt(track, e.touches[0].clientX);
+    }, { passive: false });
+    const end = () => { if (active) { active = false; validateCurrentScreen(); } };
+    track.addEventListener('touchend', end);
+    track.addEventListener('touchcancel', end);
+  });
+}
+
 // ---- MaxDiff item-order randomization (per screen, once) ----
 function randomizeMaxDiff(sid) {
   const screen = document.getElementById('screen-' + sid);
@@ -6768,7 +6809,7 @@ function showScreen(id) {
   annotateSegments(target);
   if (target.dataset.requires === 'maxdiff') randomizeMaxDiff(id);
   renderMaxdiffProgress(id, target);
-  if (target.querySelector('.vw-grid')) resetVwSliders(id);
+  if (target.querySelector('.vw-grid')) { resetVwSliders(id); enableVwTouch(target); }
   attachRankingDrag();
   defaultRankingOrder(target);
   const bp = target.querySelector('.btn-prev');
@@ -6993,7 +7034,7 @@ const PROGRESS_KEY = 'jp_survey_progress';
 // records the build it started on; on return we send the respondent back to that
 // exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
 // identical to the one they began — even if a newer version has been deployed.
-const BUILD_ID = 'd543eb4f23';
+const BUILD_ID = '552e2045d0';
 const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
 function saveProgress() {
