@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jungle Park — Vue administrateur des questionnaires</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #0f1d18; }
+  #tabs { display: flex; align-items: stretch; background: #0f1d18; height: 50px; border-bottom: 1px solid #24372f; }
+  #tabs .brand { color: #fff; font-weight: 800; font-size: 14px; display: flex; align-items: center; padding: 0 18px; gap: 8px; }
+  #tabs .sp { flex: 1; }
+  #tabs button {
+    background: transparent; color: #b9ccc2; border: 0; border-bottom: 3px solid transparent;
+    padding: 0 22px; font-size: 13.5px; font-weight: 700; cursor: pointer; height: 100%;
+  }
+  #tabs button:hover { color: #fff; background: #16261f; }
+  #tabs button.active { color: #fff; border-bottom-color: #e8541e; background: #16261f; }
+  #frames { position: absolute; top: 50px; left: 0; right: 0; bottom: 0; }
+  #frames iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; display: none; }
+  #frames iframe.active { display: block; }
+</style>
+</head>
+<body>
+<div id="tabs">
+  <div class="brand">🌿 Jungle Park — Vue administrateur <span style="font-weight:500;color:#84998d">(lecture seule)</span></div>
+  <div class="sp"></div>
+  <button data-f="f-court" class="active">CAWI court</button>
+  <button data-f="f-long">CAWI long</button>
+  <button data-f="f-capi">CAPI</button>
+</div>
+<div id="frames">
+  <iframe id="f-court" class="active" src="admin_cawi.html?variant=court"></iframe>
+  <iframe id="f-long" src="admin_cawi.html?variant=long"></iframe>
+  <iframe id="f-capi" src="admin_capi.html"></iframe>
+</div>
+<script>
+  var btns = document.querySelectorAll('#tabs button');
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      btns.forEach(function (x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      document.querySelectorAll('#frames iframe').forEach(function (f) {
+        f.classList.toggle('active', f.id === b.dataset.f);
+      });
+    });
+  });
+</script>
+</body>
+</html>

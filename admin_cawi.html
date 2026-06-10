@@ -6129,6 +6129,22 @@ function attachRankingDrag() {
 <div class="save-indicator" id="save-indicator"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+<script>/* ADMIN VIEWER — neutralise Firebase before the survey initialises it */
+(function () {
+  if (!window.firebase) return;
+  var stub = {};
+  stub.collection = function () { return stub; };
+  stub.doc        = function () { return stub; };
+  stub.set        = function () { return Promise.resolve(); };
+  stub.add        = function () { return Promise.resolve({ id: 'admin' }); };
+  stub.update     = function () { return Promise.resolve(); };
+  stub.get        = function () { return Promise.resolve({ exists: false, data: function () { return null; } }); };
+  window.firebase.initializeApp = function () { return {}; };
+  window.firebase.firestore     = function () { return stub; };
+  window.__ADMIN_VIEWER__ = true;
+})();
+</script>
+
 <script>
 
 // ===================== LIVE LAYER =====================
@@ -7196,5 +7212,137 @@ async function liveBoot() {
 })();
 
 </script>
+
+<style>
+  :root { --adm-w: 312px; }
+  body { padding-left: var(--adm-w) !important; }
+  .save-indicator { display: none !important; }
+  #admin-nav {
+    position: fixed; top: 0; left: 0; bottom: 0; width: var(--adm-w);
+    background: #0f1d18; color: #e7efe9; z-index: 9000;
+    display: flex; flex-direction: column; font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    box-shadow: 2px 0 12px rgba(0,0,0,.25);
+  }
+  #admin-nav .adm-head { padding: 14px 16px 10px; border-bottom: 1px solid #24372f; }
+  #admin-nav .adm-title { font-weight: 800; font-size: 15px; letter-spacing: .2px; }
+  #admin-nav .adm-badge {
+    display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700;
+    background: #e8541e; color: #fff; padding: 2px 8px; border-radius: 999px;
+  }
+  #admin-nav .adm-note { font-size: 11px; color: #9fb6ab; margin-top: 8px; line-height: 1.4; }
+  #admin-nav .adm-search {
+    margin: 10px 16px 6px; padding: 7px 10px; border-radius: 8px; border: 1px solid #2c4239;
+    background: #16261f; color: #e7efe9; font-size: 12.5px; width: calc(100% - 32px); box-sizing: border-box;
+  }
+  #admin-nav .adm-count { font-size: 11px; color: #84998d; padding: 0 16px 6px; }
+  #admin-list { overflow-y: auto; flex: 1; padding: 4px 8px 18px; }
+  #admin-list .adm-item {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: transparent; border: 0; color: #d4e2da;
+    padding: 7px 10px; border-radius: 7px; font-size: 12.5px; line-height: 1.3;
+  }
+  #admin-list .adm-item:hover { background: #1c2e26; }
+  #admin-list .adm-item.active { background: #2a6b54; color: #fff; }
+  #admin-list .adm-item .adm-id { display: block; font-size: 10px; color: #7f9a8c; font-family: ui-monospace, Menlo, monospace; margin-top: 1px; }
+  #admin-list .adm-item.active .adm-id { color: #c8e6d9; }
+  #admin-list .adm-item .adm-long { font-size: 9px; font-weight: 800; color: #f0a; background: #3a1430; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
+  #admin-list .adm-sec { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; color: #6f877b; padding: 12px 10px 4px; }
+</style>
+<aside id="admin-nav" aria-label="Navigation administrateur">
+  <div class="adm-head">
+    <div class="adm-title">Vue administrateur</div>
+    <span class="adm-badge" id="adm-variant-badge">—</span>
+    <div class="adm-note">Lecture seule · aucune réponse n'est enregistrée. Cliquez une question pour y sauter directement.</div>
+  </div>
+  <input id="adm-search" class="adm-search" placeholder="Filtrer les questions…" />
+  <div class="adm-count" id="adm-count"></div>
+  <div id="admin-list"></div>
+</aside>
+<script>
+(function () {
+  var EXTRA = ['a5','q-activites','q-activites-ex','anniv-q-moment','anniv-demo-age','anniv-demo-groupe','anniv-demo-invites','gg-pp','combo-enfant','combo-adulte','f-fid','q-food1','e-event','q-boutique','q-outdoor','q-fairness'];
+  var extraSet = {}; EXTRA.forEach(function (id) { extraSet[id] = true; });
+  var IS_CAWI = (typeof SURVEY_MODE !== 'undefined' && SURVEY_MODE === 'cawi');
+  var variant = (new URLSearchParams(location.search).get('variant') || (IS_CAWI ? 'long' : 'capi'));
+
+  // ---- hard read-only: stub every persistence/submit path (belt & suspenders) ----
+  try { window.saveProgress  = function () {}; } catch (e) {}
+  try { window.submitFinal   = function () { return Promise.resolve(); }; } catch (e) {}
+  try { window.markCompleted = function () { return Promise.resolve(); }; } catch (e) {}
+  try { window.db = null; } catch (e) {}
+
+  var SECTIONS = {
+    'a1': 'Démographie & contexte', 'tr-anniv': 'Bloc Anniversaire',
+    'tr-mdp': 'MaxDiff Parc', 'tr-vw': 'Prix (Van Westendorp / Gabor-Granger)',
+    'tr-mdf': 'MaxDiff F&B', 'tr-cpl': 'Compléments (réservation, météo, fidélité…)',
+    'demo': 'Fin de questionnaire', 'redo-option': 'Fin de questionnaire'
+  };
+  var TITLES = {
+    'cover': 'Page d’accueil (cover)', 'optin-extra': 'Opt-in version longue',
+    'fin': 'Écran final', 'demo': 'Démographie finale',
+    'redo-option': 'Relancer (animateur)', 'routing-cpl': 'Routage (technique)'
+  };
+  function titleFor(id, el) {
+    if (TITLES[id]) return TITLES[id];
+    var node = el.querySelector('.lang-fr .q-title, .lang-fr .screen-title, .q-title, .screen-title, h2, h1');
+    var t = node ? node.textContent.replace(/\s+/g, ' ').trim() : '';
+    if (t.length > 90) t = t.slice(0, 88) + '…';
+    return t || id;
+  }
+
+  var allScreens = Array.prototype.map.call(document.querySelectorAll('.screen'), function (el) {
+    return { id: el.id.replace(/^screen-/, ''), el: el };
+  });
+
+  function visibleScreens() {
+    return allScreens.filter(function (s) {
+      if (IS_CAWI && variant === 'court' && extraSet[s.id]) return false;
+      return true;
+    });
+  }
+
+  var listEl = document.getElementById('admin-list');
+  var countEl = document.getElementById('adm-count');
+  var badgeEl = document.getElementById('adm-variant-badge');
+  badgeEl.textContent = IS_CAWI ? ('CAWI ' + (variant === 'court' ? 'court' : 'long')) : 'CAPI';
+
+  function render(filter) {
+    filter = (filter || '').toLowerCase();
+    listEl.innerHTML = '';
+    var scr = visibleScreens();
+    var shown = 0;
+    scr.forEach(function (s) {
+      var title = titleFor(s.id, s.el);
+      if (filter && (title.toLowerCase().indexOf(filter) < 0 && s.id.toLowerCase().indexOf(filter) < 0)) return;
+      if (!filter && SECTIONS[s.id]) {
+        var sec = document.createElement('div'); sec.className = 'adm-sec'; sec.textContent = SECTIONS[s.id];
+        listEl.appendChild(sec);
+      }
+      var b = document.createElement('button');
+      b.className = 'adm-item'; b.dataset.id = s.id;
+      var longTag = (IS_CAWI && extraSet[s.id]) ? ' <span class="adm-long">LONG</span>' : '';
+      b.innerHTML = title + longTag + '<span class="adm-id">#' + s.id + '</span>';
+      b.addEventListener('click', function () { go(s.id); });
+      listEl.appendChild(b);
+      shown++;
+    });
+    countEl.textContent = shown + ' question' + (shown > 1 ? 's' : '');
+  }
+
+  function go(id) {
+    try { showScreen(id); } catch (e) { console.warn('showScreen failed', id, e); }
+    Array.prototype.forEach.call(listEl.querySelectorAll('.adm-item'), function (b) {
+      b.classList.toggle('active', b.dataset.id === id);
+    });
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+
+  document.getElementById('adm-search').addEventListener('input', function (e) { render(e.target.value); });
+
+  // Build after the survey has booted, then force-start on the cover.
+  setTimeout(function () { render(''); go('cover'); }, 60);
+})();
+</script>
+
 </body>
 </html>

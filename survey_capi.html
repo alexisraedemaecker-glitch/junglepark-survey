@@ -5802,7 +5802,7 @@ body.mode-capi .segment-legend { display: none !important; }
   </select>
 </div>
 <div style="margin-bottom:18px">
-  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Âge des enfants <span style="font-weight:400;color:var(--text-muted)">(facultatif · plusieurs choix possibles)</span></label>
+  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Âge des enfants <span style="font-weight:400;color:var(--text-muted)">(plusieurs choix possibles)</span></label>
   <div class="options demo-kids" style="margin-bottom:0">
     <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>Moins de 3 ans</div>
     <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>3 à 6 ans</div>
@@ -5838,7 +5838,7 @@ body.mode-capi .segment-legend { display: none !important; }
   </select>
 </div>
 <div style="margin-bottom:18px">
-  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Alter der Kinder <span style="font-weight:400;color:var(--text-muted)">(optional · Mehrfachauswahl möglich)</span></label>
+  <label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:8px">Alter der Kinder <span style="font-weight:400;color:var(--text-muted)">(Mehrfachauswahl möglich)</span></label>
   <div class="options demo-kids" style="margin-bottom:0">
     <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>Unter 3 Jahre</div>
     <div class="option" onclick="selectOption(this,'multi')" style="padding:10px 14px;font-size:14px"><span class="option-radio"></span>3 bis 6 Jahre</div>
@@ -6260,6 +6260,18 @@ function seqNext(seqKey, prefix, currentId, fallback) {
   return fallback;
 }
 
+// ---- Demographics gating helpers ----
+// Children's age is collected from EVERY group that includes children
+// (Aventurier/Explorateur in a2). The legacy age/postal/household block is
+// additionally shown to first-time visitors who didn't book online.
+function hasKidsInGroup(ans) {
+  const a2 = ans['a2'] || [];
+  return a2.includes('aventurier') || a2.includes('explorateur');
+}
+function needsDemo(ans) {
+  return (ans['a3'] === 'premiere' && ans['a-resa'] === 'non') || hasKidsInGroup(ans);
+}
+
 // ---- Routing ----
 function getNextScreenId(sid) {
   const ans = state.answers;
@@ -6338,12 +6350,12 @@ function getNextScreenId(sid) {
     case 'q-boutique': return 'q-outdoor';
     case 'q-outdoor': return 'q-fairness';
     case 'q-fairness':
-      // Demographics only for first-time visitors who did NOT book online, i.e.
-      // people not yet registered in the system. Online bookers (a-resa='oui')
-      // are already on file, and repeat visitors are looked up via the
-      // name+email everyone now gives on a4-cross — so neither is re-asked.
-      if (ans['a3'] === 'premiere' && ans['a-resa'] === 'non') return 'demo';
-      return SURVEY_MODE === 'capi' ? 'redo-option' : 'fin';
+      // CAPI has no opt-in wrapper, so the demographics detour lives here.
+      // For CAWI the wrapper inserts 'demo' at the true end of the flow (after
+      // the opt-in gate / reward block), so q-fairness must still resolve to
+      // 'fin' here — otherwise the core-end → opt-in detection is bypassed.
+      if (SURVEY_MODE === 'capi') return needsDemo(ans) ? 'demo' : 'redo-option';
+      return 'fin';
     case 'demo': return SURVEY_MODE === 'capi' ? 'redo-option' : 'fin';
     case 'redo-option': return 'fin';
     default: return null;
@@ -6980,10 +6992,14 @@ validateCurrentScreen = function() {
   const block = Array.from(scr.children).find(c =>
     (c.classList.contains('lang-fr') || c.classList.contains('lang-de')) && c.offsetParent !== null
   ) || scr;
-  const ageOk = !!block.querySelector('.demo-age .option.selected');
+  // Children's age is the only required field, and only for groups with kids.
+  // Age / postal code / household are optional (we segment age from existing data).
+  const valid = hasKidsInGroup(state.answers)
+    ? !!block.querySelector('.demo-kids .option.selected')
+    : true;
   const bn = scr.querySelector('.btn-next');
-  if (bn) bn.classList.toggle('disabled', !ageOk);
-  return ageOk;
+  if (bn) bn.classList.toggle('disabled', !valid);
+  return valid;
 };
 
 // ---- Gabor-Granger "none" exit ----
@@ -7034,7 +7050,7 @@ const PROGRESS_KEY = 'jp_survey_progress';
 // records the build it started on; on return we send the respondent back to that
 // exact build (see maybeRedirectToOwnBuild) so the questionnaire they resume is
 // identical to the one they began — even if a newer version has been deployed.
-const BUILD_ID = '552e2045d0';
+const BUILD_ID = 'ec4474c901';
 const PROGRESS_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 
 function saveProgress() {
@@ -7201,12 +7217,21 @@ async function liveBoot() {
   }
 
   var _raw = getNextScreenId;
+  // Detour the very end of the flow through the demographics screen when the
+  // respondent qualifies (group with children, or first-time non-online booker).
+  function endOrDemo() { return needsDemo(state.answers) ? 'demo' : 'fin'; }
+
   getNextScreenId = function (sid) {
     var extra = state.answers['optin-extra'] === 'oui';
-    // The opt-in gate itself.
-    if (sid === 'optin-extra') return extra ? firstExtra() : 'fin';
-    // Extended mode: walk the reward-gated block in fixed order.
-    if (extra && optSet[sid]) return nextExtra(sid);
+    // After the demographics screen, finish.
+    if (sid === 'demo') return 'fin';
+    // The opt-in gate itself (short version ends here).
+    if (sid === 'optin-extra') return extra ? firstExtra() : endOrDemo();
+    // Extended mode: walk the reward-gated block, then demographics, then end.
+    if (extra && optSet[sid]) {
+      var ne = nextExtra(sid);
+      return ne === 'fin' ? endOrDemo() : ne;
+    }
     // Core mode: skip any optional screen the raw router would visit, and
     // route the end of the core flow to the opt-in gate (not to 'fin').
     var n = _raw(sid), guard = 0;
